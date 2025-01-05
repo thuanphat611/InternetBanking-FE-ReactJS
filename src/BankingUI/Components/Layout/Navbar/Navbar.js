@@ -154,7 +154,7 @@ const Header = (props) => {
 			case "admin": {
 				return <AdminNavbar />;
 			}
-			case "employee": {
+			case "Employee": {
 				return <EmployeeNavbar />;
 			}
 			case "customer": {

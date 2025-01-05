@@ -43,7 +43,7 @@ const App = (props) => {
 	let notificationsData = [];
 
 	// --- CONFIG AXIOS ---
-	const apiURL = process.env.REACT_APP_BASE_URL || "http://localhost:5000";
+	const apiURL = process.env.REACT_APP_BASE_URL || "http://localhost:8080";
 	axios.defaults.baseURL = apiURL;
 	axios.defaults.headers.common[
 		"Authorization"
@@ -202,7 +202,7 @@ const App = (props) => {
 		) {
 			setRole(jwtDecode(authentication.accessToken).role);
 			axios
-				.get("/api/users/me")
+				.get("/api/protected/information")
 				.then((result) => {
 					if (result.status === 200) {
 						setIsAuthenticated(true);
@@ -319,7 +319,7 @@ const App = (props) => {
 
 					{/* ---EMPLOYEE RENDER --- */}
 					{isAuthenticated &&
-						role === "employee" &&
+						role === "Employee" &&
 						employee_routes.map((item, index) => {
 							return (
 								<item.routetype

@@ -108,7 +108,7 @@ const ReceiverList = (props) => {
 												setWorkingReceiver(receiver);
 											}}
 										>
-											{receiver.savedName}
+											{receiver.nickName}
 										</span>
 									</td>
 									<td>{getBankName(receiver.bankId)}</td>

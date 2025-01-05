@@ -35,7 +35,7 @@ export const UserInformationActionCreators = {
 		type: UserInformationActionTypes.USER_GET_ALL_RECEIVERS,
 		payload: new Promise((resolve, reject) =>
 			axios
-				.get(`/api/users/receiver-list`, {
+				.get(`/api/protected/receiver`, {
 					headers: { Authorization: `Bearer ${token}` },
 				})
 				.then((result) => {

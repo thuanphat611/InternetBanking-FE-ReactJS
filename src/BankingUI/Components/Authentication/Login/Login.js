@@ -61,13 +61,13 @@ const LogIn = (props) => {
       setFormVariables({ ...formVariables, isLoading: true });
       await axiosInstance
         .post("/api/auth/login", {
-          username: formVariables.username,
+          email: formVariables.username,
           password: formVariables.password,
         })
         .then((result) => {
           if (result.status === 200) {
-            localStorage.setItem("token", result.data.accessToken);
-            localStorage.setItem("refreshToken", result.data.refreshToken);
+            localStorage.setItem("token", result.data.data.accessToken);
+            localStorage.setItem("refreshToken", result.data.data.refreshToken);
           }
 
           // ONLY IN LOGIN! EXIT OF REFRESH-TOKEN LOOP
