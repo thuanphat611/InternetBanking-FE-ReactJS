@@ -1,7 +1,6 @@
 # InternetBanking-FrontEnd
 
-FrontEnd Internet Banking - Đồ án cuối kì - PTUDWNC 2020 - HCMUS
-Sinh viên: NGUYỄN NGỌC KHẮC TRIỆU 1612738
+FrontEnd Internet Banking - Đồ án cuối kì - PTUDWNC - HCMUS
 
 # Công nghệ sử dụng
 - [x] **ReactJS** kết hợp React-Bootstrap + Ant Design
