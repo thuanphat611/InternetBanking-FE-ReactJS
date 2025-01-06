@@ -35,30 +35,39 @@ const DebtsFilter = (props) => {
     message: "",
   });
 
+  const [sendingForm, setSendingForm] = useState({
+    senderAccountNumber: "",
+    receiverAccountNumber: "",
+    amount: 0,
+    description: "",
+    type: "dept"
+  })
+
   const filterData = () => {
     let emptyList = [];
     switch (filterType) {
       case "pending-mine": {
         emptyList = debtsData.filter((item) => {
           return (
-            item.status === "pending" &&
-            item.sentUserId === currentUser.accountNumber
+            item.status === "Chưa thanh toán" &&
+            item.senderAccountId === currentUser.accountNumber
           );
         });
+        //console.log(emptyList);
         break;
       }
       case "pending-theirs": {
         emptyList = debtsData.filter((item) => {
           return (
-            item.status === "pending" &&
-            item.receivedUserId === currentUser.accountNumber
+            item.status === "Chưa thanh toán" &&
+            item.receiverAccountId === currentUser.accountNumber
           );
         });
         break;
       }
       case "paid": {
         emptyList = debtsData.filter((item) => {
-          return item.status === "paid";
+          return item.status === "Đã thanh toán";
         });
         break;
       }
@@ -87,14 +96,21 @@ const DebtsFilter = (props) => {
   const moveNextStep = (item, type) => {
     console.log(item);
     if (item.debtId !== "") {
-      formVariables["debtId"] = item.debtId;
-      formVariables["sentUserName"] = item.sentUserName.toUpperCase();
-      formVariables["receivedUserName"] = item.receivedUserName.toUpperCase();
-      formVariables["debtContent"] = item.debtContent;
+      formVariables["id"] = item.id;
+      formVariables["sentUserName"] = item.senderUserName.toUpperCase();
+      formVariables["receivedUserName"] = item.receiverUserName.toUpperCase();
+      formVariables["debtContent"] = item.description;
       formVariables["createdAt"] = item.createdAt;
       formVariables["amount"] = item.amount;
       formVariables["transactionId"] = item.transactionId;
     }
+    sendingForm["senderAccountNumber"] = item.receiverAccountId;
+    sendingForm["receiverAccountNumber"] = item.senderAccountId;
+    sendingForm["amount"] = item.amount;
+    formVariables["description"] = item.description
+
+    setSendingForm({...sendingForm});
+    console.log(sendingForm);
     setFormVariables({ ...formVariables });
     console.log(formVariables);
     if (type === "delete") setStep(1);
@@ -115,19 +131,20 @@ const DebtsFilter = (props) => {
       return (
         <div>
           {filteredData.map((item, index) => {
+            console.log(item)
             let nameToShow = "";
             let moneyType, moneyDetail, transactionType, badgeName;
             let isSentByThisUser = true;
-            let isPaid = item.status === "paid";
-            if (item.receivedUserId === currentUser.accountNumber) {
+            let isPaid = item.status === "Đã thanh toán";
+            if (item.receiverAccountId === currentUser.accountNumber) {
               isSentByThisUser = false;
-              nameToShow = item.sentUserName;
+              nameToShow = item.senderUserName;
               moneyType = "danger";
               moneyDetail = moneyFormatter.format(item.amount);
               transactionType = "danger";
               badgeName = "Đang nợ";
             } else {
-              nameToShow = item.receivedUserName;
+              nameToShow = item.receiverUserName;
               moneyType = "success";
               moneyDetail = moneyFormatter.format(item.amount);
               transactionType = "success";
@@ -194,6 +211,7 @@ const DebtsFilter = (props) => {
         <PayDebtForm
           formVariables={formVariables}
           setFormVariables={setFormVariables}
+          setSendingForm={setSendingForm}
           setStep={setStep}
           handleChange={handleChange}
           setFormError={setFormError}

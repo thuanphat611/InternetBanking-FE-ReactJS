@@ -99,7 +99,7 @@ const ReceiverList = (props) => {
             {receiversData.map((receiver, index) => {
               return (
                 <tr key={index}>
-                  <td>{receiver.accountNumber}</td>
+                  <td>{receiver.receiverAccountId}</td>
                   <td>
                     <span
                       type="button"

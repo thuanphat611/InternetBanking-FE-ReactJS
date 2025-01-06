@@ -19,6 +19,7 @@ const PayDebtForm = ({
 	handleChange,
 	setStep,
 	setFormError,
+	setSendingForm
 }) => {
 	const [validated, setValidated] = useState(false);
 

@@ -25,7 +25,6 @@ const DebtManagement = (props) => {
 
 		let isGettingAList = true;
 		getList(isGettingAList);
-
 		return () => {
 			mountedRef.current = false;
 			isGettingAList = false;
@@ -33,8 +32,9 @@ const DebtManagement = (props) => {
 	}, []);
 
 	const getList = async (isGettingAList) => {
+    console.log(currentUser);
 		await axios
-			.get("/api/debt/history")
+			.get(`/api/protected/dept-reminder/send/${currentUser.accountNumber}`)
 			.then((result) => result.data.data)
 			.then((result) => {
 				if (isGettingAList) {
