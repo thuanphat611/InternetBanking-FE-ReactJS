@@ -208,9 +208,11 @@ const PayInForm = (props) => {
                     Hãy điền lời nhắn phù hợp.
                   </Form.Control.Feedback>
                 </Form.Group>
-                <Button variant="primary" type="submit" className="mt-3">
-                  Next
-                </Button>
+                <Col className="d-flex justify-content-center align-items-center">
+                  <Button variant="primary" type="submit" className="mt-3">
+                    Next
+                  </Button>
+                </Col>
               </Form>
             </Card.Body>
             {/* <Card.Footer className="text-muted text-center">

@@ -26,8 +26,7 @@ const Dashboard = (props) => {
     <Container fluid>
       <Row>
         <Col md={{ span: 6, offset: 3 }} lg={6}>
-          <Card className="text-center mt-3 text-center">
-            {/* <Card.Header>EMPLOYEE DASHBOARD</Card.Header> */}
+          <Card className="text-center mt-3" border="0">
             <Card.Body>
               <Card.Title>
                 Hello,{" "}
@@ -35,24 +34,36 @@ const Dashboard = (props) => {
                   <span className="text-primary">{name}</span>
                 </Link>
               </Card.Title>
-              <Col>
-                <Link to="/new-customer">
-                  <Button variant="primary" className="extraButton">
+              <div className="d-flex mt-3 gap-3">
+                <Link to="/new-customer" className="w-100">
+                  <Button
+                    variant="primary"
+                    className="w-100"
+                    style={{ height: "100px" }}
+                  >
                     Create new account
                   </Button>
                 </Link>
-              </Col>
-              <Col className="mt-2">
-                <Link to="/deposit" className="extraButton">
-                  <Button variant="primary" className="extraButton">
+                <Link to="/deposit" className="w-100">
+                  <Button
+                    variant="primary"
+                    className="w-100"
+                    style={{ height: "100px" }}
+                  >
                     Deposit money for customer
                   </Button>
                 </Link>
-              </Col>
+                <Link to="/customer-transaction" className="w-100">
+                  <Button
+                    variant="primary"
+                    className="w-100"
+                    style={{ height: "100px" }}
+                  >
+                    Customer Transaction
+                  </Button>
+                </Link>
+              </div>
             </Card.Body>
-            {/* <Card.Footer className="text-muted">
-              HCMUS - PTUDWNC - 21KTPM1
-            </Card.Footer> */}
           </Card>
         </Col>
       </Row>

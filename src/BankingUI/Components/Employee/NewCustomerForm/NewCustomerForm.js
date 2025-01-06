@@ -179,10 +179,12 @@ const NewCustomerForm = (props) => {
                     Please fill the field.
                   </Form.Control.Feedback>
                 </Form.Group>
-                <Button variant="primary" type="submit" className="mt-3">
-                  ADD
-                  {/* {isLoading ? <Spinner animation="border" size="sm" /> : null} */}
-                </Button>
+                <Col className="d-flex justify-content-center align-items-center">
+                  <Button variant="primary" type="submit" className="mt-3">
+                    CREATE ACCOUNT
+                    {/* {isLoading ? <Spinner animation="border" size="sm" /> : null} */}
+                  </Button>
+                </Col>
               </Form>
             </Card.Body>
             {/* <Card.Footer className="text-muted text-center">
