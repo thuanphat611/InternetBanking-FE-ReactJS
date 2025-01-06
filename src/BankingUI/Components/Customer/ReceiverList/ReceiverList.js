@@ -79,9 +79,9 @@ const ReceiverList = (props) => {
     if (receiversData.length === 0) {
       return (
         <AlertBox
-          alertTypes="success"
-          alertHeading="Hello!"
-          alertMessage="Hiện tại bạn chưa có người nhận nào, hãy thêm để dễ thao tác hơn!"
+          alertTypes="info"
+          alertHeading="Info"
+          alertMessage="You currently don't have any recipients"
         />
       );
     } else {

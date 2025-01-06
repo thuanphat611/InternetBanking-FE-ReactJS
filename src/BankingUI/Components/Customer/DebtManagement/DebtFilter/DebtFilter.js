@@ -107,7 +107,7 @@ const DebtsFilter = (props) => {
       return (
         <AlertBox
           alertTypes="info"
-          alertHeading="Hello!"
+          alertHeading="Info"
           alertMessage="No recent debt reminders!"
         />
       );

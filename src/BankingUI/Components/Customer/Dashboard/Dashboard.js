@@ -26,7 +26,7 @@ const Dashboard = (props) => {
     <Container fluid>
       <Row>
         <Col md={{ span: 6, offset: 3 }} lg={6}>
-          <Card className="text-center mt-3 text-center">
+          <Card className="text-center mt-3" border="0">
             <Card.Body>
               <Card.Title>
                 Hello,{" "}
@@ -38,27 +38,35 @@ const Dashboard = (props) => {
                 Your balance:{" "}
                 <span className="text-primary">{formattedBalance}</span>
               </Card.Text>
-              <Col>
-                <Link to="/receivers">
-                  <Button variant="primary" className="extraButton">
+              <div className="d-flex mt-3 gap-3">
+                <Link to="/receivers" className="w-100">
+                  <Button
+                    variant="primary"
+                    className="w-100"
+                    style={{ height: "100px" }}
+                  >
                     Receiver list
                   </Button>
                 </Link>
-              </Col>
-              <Col className="mt-2">
-                <Link to="/transaction" className="extraButton">
-                  <Button variant="primary" className="extraButton">
+                <Link to="/transaction" className="w-100">
+                  <Button
+                    variant="primary"
+                    className="w-100"
+                    style={{ height: "100px" }}
+                  >
                     Transfer money
                   </Button>
                 </Link>
-              </Col>
-              <Col className="mt-2">
-                <Link to="/debt" className="extraButton">
-                  <Button variant="primary" className="extraButton">
+                <Link to="/debt" className="w-100">
+                  <Button
+                    variant="primary"
+                    className="w-100"
+                    style={{ height: "100px" }}
+                  >
                     Create debt reminder
                   </Button>
                 </Link>
-              </Col>
+              </div>
             </Card.Body>
           </Card>
         </Col>

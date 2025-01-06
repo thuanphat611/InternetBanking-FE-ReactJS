@@ -77,6 +77,134 @@ const ReceiverDetail = (props) => {
       case "component-0":
         return (
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
+            <Form.Group className="d-flex justify-content-center">
+              {/* <Form.Label className="font-weight-bold">ID and UserName</Form.Label> */}
+              <Col lg={8}>
+                <Col>
+                  <Form.Text className="text-muted font-weight-bold">
+                    Account Number
+                  </Form.Text>
+                  <Form.Control
+                    required
+                    type="text"
+                    name="accountNumber"
+                    value={formVariables.accountNumber}
+                    onChange={(e) => handleChange(e)}
+                    onBlur={() =>
+                      getThisUserName(
+                        formVariables.accountNumber,
+                        formVariables.bankId
+                      )
+                    }
+                  />
+                </Col>
+                <Col>
+                  <Form.Text className="text-muted font-weight-bold">
+                    Bank
+                  </Form.Text>
+                  <Form.Control
+                    disabled
+                    size="sm"
+                    as="select"
+                    name="bankId"
+                    value={formVariables.bankId}
+                    onChange={(e) => handleChange(e)}
+                    onBlur={() =>
+                      getThisUserName(
+                        formVariables.accountNumber,
+                        formVariables.bankId
+                      )
+                    }
+                  >
+                    <option value={-1}></option>
+                    <option value={0}>SAPHASAN Bank</option>
+                    <option value={1}>Ngân hàng Ba Tê</option>
+                    <option value={2}>BAOSON Bank</option>
+                  </Form.Control>
+                </Col>
+                <Form.Text className="text-muted font-weight-bold">
+                  Full name
+                </Form.Text>
+                <Form.Control
+                  required
+                  type="text"
+                  name="name"
+                  value={formVariables.name}
+                  onChange={(e) => handleChange(e)}
+                  isInvalid={
+                    formVariables.name === "" ||
+                    formVariables.name === "KHONG TIM THAY"
+                  }
+                  disabled
+                />
+              </Col>
+            </Form.Group>
+            <Button variant="primary" type="submit" className="mt-3">
+              Next
+            </Button>
+          </Form>
+        );
+      case "component-1":
+        if (receiversData.length !== 0) {
+          return (
+            <Table responsive="sm" striped bordered hover>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Name</th>
+                  <th>Bank name</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {receiversData.map((receiver, index) => {
+                  return (
+                    <tr key={index}>
+                      <td>{receiver.accountNumber}</td>
+                      <td>{receiver.savedName}</td>
+                      <td>
+                        {receiver.bankId === 0
+                          ? "SAPHASAN Bank"
+                          : receiver.bankId === 1
+                          ? "Ngân hàng Ba Tê"
+                          : "BAOSON Bank"}
+                      </td>
+                      <td className="action">
+                        <Button
+                          variant="success"
+                          size="sm"
+                          onClick={() => {
+                            console.log(formVariables);
+                            getThisUserName(
+                              receiver.accountNumber,
+                              receiver.bankId
+                            );
+                            setStep(2);
+                          }}
+                        >
+                          <FontAwesomeIcon icon={faForward} />
+                        </Button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </Table>
+          );
+        } else
+          return (
+            <>
+              <AlertBox
+                alertTypes="info"
+                alertHeading="Info"
+                alertMessage="You currently don't have any recipients."
+              />
+              <Link to="/receivers">Go to receivers form</Link>
+            </>
+          );
+      default:
+        return (
+          <Form noValidate validated={validated} onSubmit={handleSubmit}>
             <Form.Group>
               {/* <Form.Label className="font-weight-bold">ID and UserName</Form.Label> */}
               <Row>
@@ -139,75 +267,20 @@ const ReceiverDetail = (props) => {
                 disabled
               />
             </Form.Group>
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" className="mt-3">
               Next
             </Button>
           </Form>
         );
-      case "component-1":
-        if (receiversData.length !== 0) {
-          return (
-            <Table responsive="sm" striped bordered hover>
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Name</th>
-                  <th>Bank name</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {receiversData.map((receiver, index) => {
-                  return (
-                    <tr key={index}>
-                      <td>{receiver.accountNumber}</td>
-                      <td>{receiver.savedName}</td>
-                      <td>
-                        {receiver.bankId === 0
-                          ? "SAPHASAN Bank"
-                          : receiver.bankId === 1
-                          ? "Ngân hàng Ba Tê"
-                          : "BAOSON Bank"}
-                      </td>
-                      <td className="action">
-                        <Button
-                          variant="success"
-                          size="sm"
-                          onClick={() => {
-                            console.log(formVariables);
-                            getThisUserName(
-                              receiver.accountNumber,
-                              receiver.bankId
-                            );
-                            setStep(2);
-                          }}
-                        >
-                          <FontAwesomeIcon icon={faForward} />
-                        </Button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </Table>
-          );
-        } else
-          return (
-            <>
-              <AlertBox
-                alertTypes="success"
-                alertHeading="Hello!"
-                alertMessage="Hiện tại bạn chưa có người nhận nào, hãy thêm để dễ thao tác hơn!"
-              />
-              <Link to="/receivers">Go to receivers form</Link>
-            </>
-          );
     }
   };
 
   return (
     <>
-      <h5>Bước 1: Nhập thông tin người cần nhắc nợ (cùng ngân hàng)</h5>
+      <h5 style={{ fontSize: "16px" }}>
+        Step 1: Enter the information of the person to remind for debt (within
+        the same bank)
+      </h5>
       <Nav
         fill
         variant="tabs"
@@ -217,10 +290,10 @@ const ReceiverDetail = (props) => {
         }}
       >
         <Nav.Item>
-          <Nav.Link eventKey="component-0">Thông tin mới</Nav.Link>
+          <Nav.Link eventKey="component-0">New</Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link eventKey="component-1">Từ danh sách</Nav.Link>
+          <Nav.Link eventKey="component-1">From list</Nav.Link>
         </Nav.Item>
       </Nav>
       <hr />
