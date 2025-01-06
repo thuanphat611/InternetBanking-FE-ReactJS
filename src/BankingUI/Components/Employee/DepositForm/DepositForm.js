@@ -110,7 +110,7 @@ const PayInForm = (props) => {
         <Col md={{ span: 6, offset: 3 }} lg={6}>
           <Card className="text-center" className="mt-3">
             <Card.Header className="text-center toolbar">
-              <span>NẠP TIỀN CHO KHÁCH HÀNG</span>
+              <span>DEPOSIT MONEY FOR CUSTOMER</span>
             </Card.Header>
             <Card.Body>
               {renderAlert()}
@@ -208,14 +208,14 @@ const PayInForm = (props) => {
                     Hãy điền lời nhắn phù hợp.
                   </Form.Control.Feedback>
                 </Form.Group>
-                <Button variant="primary" type="submit">
+                <Button variant="primary" type="submit" className="mt-3">
                   Next
                 </Button>
               </Form>
             </Card.Body>
-            <Card.Footer className="text-muted text-center">
+            {/* <Card.Footer className="text-muted text-center">
               HCMUS - PTUDWNC - 21KTPM1
-            </Card.Footer>
+            </Card.Footer> */}
           </Card>
         </Col>
       </Row>

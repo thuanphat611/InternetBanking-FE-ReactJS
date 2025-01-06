@@ -44,21 +44,21 @@ const Header = (props) => {
             to="/edit"
             className="text-light d-flex align-items-center"
           >
-            Sửa thông tin
+            Edit Information
           </Nav.Link>
           <Nav.Link
             as={Link}
             to="/debt-management"
             className="text-light d-flex align-items-center"
           >
-            Quản lý nợ
+            Debt Management
           </Nav.Link>
           <Nav.Link
             as={Link}
             to="/transaction-management"
             className="text-light d-flex align-items-center"
           >
-            Quản lý giao dịch
+            Transaction Management
           </Nav.Link>
         </Nav>
 

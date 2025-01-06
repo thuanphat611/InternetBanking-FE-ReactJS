@@ -86,7 +86,7 @@ const NewCustomerForm = (props) => {
         <Col md={{ span: 6, offset: 3 }} lg={6}>
           <Card className="text-center" className="mt-3">
             <Card.Header className="text-center toolbar">
-              <span>TẠO KHÁCH HÀNG MỚI</span>
+              <span>CREATE NEW ACCOUNT</span>
             </Card.Header>
             <Card.Body>
               {renderAlert()}
@@ -124,9 +124,6 @@ const NewCustomerForm = (props) => {
                   </Form.Text>
                 </Form.Group>
                 <Form.Group>
-                  <Form.Label className="font-weight-bold">
-                    Basic information
-                  </Form.Label>
                   <Form.Text className="text-muted font-weight-bold">
                     Name
                   </Form.Text>
@@ -168,9 +165,6 @@ const NewCustomerForm = (props) => {
                   </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group>
-                  <Form.Label className="font-weight-bold">
-                    Secret fields
-                  </Form.Label>
                   <Form.Text className="text-muted font-weight-bold">
                     Password
                   </Form.Text>
@@ -185,15 +179,15 @@ const NewCustomerForm = (props) => {
                     Please fill the field.
                   </Form.Control.Feedback>
                 </Form.Group>
-                <Button variant="primary" type="submit">
+                <Button variant="primary" type="submit" className="mt-3">
                   ADD
                   {/* {isLoading ? <Spinner animation="border" size="sm" /> : null} */}
                 </Button>
               </Form>
             </Card.Body>
-            <Card.Footer className="text-muted text-center">
+            {/* <Card.Footer className="text-muted text-center">
               HCMUS - PTUDWNC - 21KTPM1
-            </Card.Footer>
+            </Card.Footer> */}
           </Card>
         </Col>
       </Row>

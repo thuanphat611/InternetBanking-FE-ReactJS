@@ -85,7 +85,6 @@ const PasswordForm = ({
 				</Form.Text>
 			</Form.Group>
 			<Form.Group>
-				<Form.Label className="font-weight-bold">Change password</Form.Label>
 				<Form.Text className="text-muted font-weight-bold">
 					Current password
 				</Form.Text>
@@ -130,8 +129,8 @@ const PasswordForm = ({
 				</Form.Control.Feedback>
 			</Form.Group>
 
-			<Button variant="primary" type="submit">
-				Edit
+			<Button variant="primary" type="submit" className="mt-3">
+				Confirm
 				{/* {isLoading ? <Spinner animation="border" size="sm" /> : null} */}
 			</Button>
 		</Form>

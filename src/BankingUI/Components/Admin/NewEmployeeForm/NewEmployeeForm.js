@@ -95,7 +95,7 @@ const NewEmployeeForm = (props) => {
     <Container fluid>
       <Row>
         <Col md={{ span: 6, offset: 3 }} lg={6}>
-          <Card className="text-center" className="mt-3">
+          <Card className="text-center mt-3">
             <Card.Header className="text-center toolbar">
               <span>TẠO NHÂN VIÊN MỚI</span>
             </Card.Header>
@@ -206,9 +206,9 @@ const NewEmployeeForm = (props) => {
                 </Button>
               </Form>
             </Card.Body>
-            <Card.Footer className="text-muted text-center">
+            {/* <Card.Footer className="text-muted text-center">
               HCMUS - PTUDWNC - 21KTPM1
-            </Card.Footer>
+            </Card.Footer> */}
           </Card>
         </Col>
       </Row>

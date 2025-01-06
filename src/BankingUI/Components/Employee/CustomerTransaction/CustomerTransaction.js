@@ -93,7 +93,7 @@ const CustomerTransaction = (props) => {
 			<Row>
 				<Col md={{ span: 5, offset: 3 }} lg={6}>
 					<Card className="mt-3">
-						<Card.Header className="toolBar">DANH SÁCH NGƯỜI DÙNG</Card.Header>
+						<Card.Header className="toolBar">CUSTOMER LIST</Card.Header>
 						<Card.Body>
 							{step === 0 && (
 								<CustomersList

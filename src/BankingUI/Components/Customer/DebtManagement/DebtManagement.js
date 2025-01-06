@@ -50,45 +50,47 @@ const DebtManagement = (props) => {
 	};
 
 	return (
-		<Container fluid>
-			<Row>
-				<Col md={{ span: 5, offset: 3 }} lg={6}>
-					<Card className="mt-3">
-						<Card.Header className="toolBar">QUẢN LÝ NỢ</Card.Header>
-						<Card.Body>
-							<Nav
-								fill
-								justify
-								variant="tabs"
-								defaultActiveKey="pending-mine"
-								onSelect={(selectedKey) => {
-									setRenderOption(selectedKey);
-								}}
-							>
-								<Nav.Item>
-									<Nav.Link eventKey="pending-mine">Nhắc nợ của bạn</Nav.Link>
-								</Nav.Item>
-								<Nav.Item>
-									<Nav.Link eventKey="pending-theirs">Nhắc nợ gửi đến</Nav.Link>
-								</Nav.Item>
-								<Nav.Item>
-									<Nav.Link eventKey="paid">Hoàn tất</Nav.Link>
-								</Nav.Item>
-							</Nav>
-							<DebtFilter
-								accessToken={reducerAuthorization.authentication.accessToken}
-								currentUser={currentUser}
-								debtsData={debtsData}
-								filterType={renderOption}
-								setStep={setStep}
-								step={step}
-							/>
-						</Card.Body>
-					</Card>
-				</Col>
-			</Row>
-		</Container>
-	);
+    <Container fluid>
+      <Row>
+        <Col md={{ span: 5, offset: 3 }} lg={6}>
+          <Card className="mt-3">
+            <Card.Header className="toolBar">DEBT MANAGEMENT</Card.Header>
+            <Card.Body>
+              <Nav
+                fill
+                justify
+                variant="tabs"
+                defaultActiveKey="pending-mine"
+                onSelect={(selectedKey) => {
+                  setRenderOption(selectedKey);
+                }}
+              >
+                <Nav.Item>
+                  <Nav.Link eventKey="pending-mine">
+                    Your debt reminder
+                  </Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link eventKey="pending-theirs">Debt reminder Received</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link eventKey="paid">Completed</Nav.Link>
+                </Nav.Item>
+              </Nav>
+              <DebtFilter
+                accessToken={reducerAuthorization.authentication.accessToken}
+                currentUser={currentUser}
+                debtsData={debtsData}
+                filterType={renderOption}
+                setStep={setStep}
+                step={step}
+              />
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
+  );
 };
 
 export default DebtManagement;

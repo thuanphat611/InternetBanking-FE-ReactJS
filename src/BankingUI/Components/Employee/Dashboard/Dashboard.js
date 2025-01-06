@@ -26,11 +26,11 @@ const Dashboard = (props) => {
     <Container fluid>
       <Row>
         <Col md={{ span: 6, offset: 3 }} lg={6}>
-          <Card className="text-center" className="mt-3 text-center">
-            <Card.Header>EMPLOYEE DASHBOARD</Card.Header>
+          <Card className="text-center mt-3 text-center">
+            {/* <Card.Header>EMPLOYEE DASHBOARD</Card.Header> */}
             <Card.Body>
               <Card.Title>
-                Xin chào,{" "}
+                Hello,{" "}
                 <Link to="/edit">
                   <span className="text-primary">{name}</span>
                 </Link>
@@ -38,21 +38,21 @@ const Dashboard = (props) => {
               <Col>
                 <Link to="/new-customer">
                   <Button variant="primary" className="extraButton">
-                    Tạo khách hàng mới
+                    Create new account
                   </Button>
                 </Link>
               </Col>
               <Col className="mt-2">
                 <Link to="/deposit" className="extraButton">
                   <Button variant="primary" className="extraButton">
-                    Nạp tiền cho khách hàng
+                    Deposit money for customer
                   </Button>
                 </Link>
               </Col>
             </Card.Body>
-            <Card.Footer className="text-muted">
+            {/* <Card.Footer className="text-muted">
               HCMUS - PTUDWNC - 21KTPM1
-            </Card.Footer>
+            </Card.Footer> */}
           </Card>
         </Col>
       </Row>

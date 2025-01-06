@@ -63,7 +63,7 @@ const TransactionManagement = (props) => {
 				<Col md={{ span: 5, offset: 3 }} lg={6}>
 					<Card className="mt-3">
 						<Card.Header className="toolBar">
-							QUẢN LÝ GIAO DỊCH TÀI KHOẢN
+						ACCOUNT TRANSACTION MANAGEMENT
 						</Card.Header>
 						<Card.Body>
 							{/* <div className="form-group row">

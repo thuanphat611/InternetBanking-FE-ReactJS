@@ -71,7 +71,7 @@ const FormEditInfo = (props) => {
                     setShowBasicForm(true);
                   }}
                 >
-                  Basic
+                  Basic Information
                 </Link>
               )}
             </Card.Header>
@@ -94,9 +94,6 @@ const FormEditInfo = (props) => {
                 />
               )}
             </Card.Body>
-            <Card.Footer className="text-muted text-center">
-              HCMUS - PTUDWNC - 21KTPM1
-            </Card.Footer>
           </Card>
         </Col>
       </Row>

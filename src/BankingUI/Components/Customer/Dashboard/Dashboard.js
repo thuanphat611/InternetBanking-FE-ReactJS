@@ -26,44 +26,40 @@ const Dashboard = (props) => {
     <Container fluid>
       <Row>
         <Col md={{ span: 6, offset: 3 }} lg={6}>
-          <Card className="text-center" className="mt-3 text-center">
-            <Card.Header>DASHBOARD</Card.Header>
+          <Card className="text-center mt-3 text-center">
             <Card.Body>
               <Card.Title>
-                Xin chào,{" "}
+                Hello,{" "}
                 <Link to="/edit">
                   <span className="text-primary">{name}</span>
                 </Link>
               </Card.Title>
               <Card.Text>
-                Số dư khả dụng của bạn:{" "}
+                Your balance:{" "}
                 <span className="text-primary">{formattedBalance}</span>
               </Card.Text>
               <Col>
                 <Link to="/receivers">
                   <Button variant="primary" className="extraButton">
-                    Danh sách người nhận
+                    Receiver list
                   </Button>
                 </Link>
               </Col>
               <Col className="mt-2">
                 <Link to="/transaction" className="extraButton">
                   <Button variant="primary" className="extraButton">
-                    Chuyển tiền
+                    Transfer money
                   </Button>
                 </Link>
               </Col>
               <Col className="mt-2">
                 <Link to="/debt" className="extraButton">
                   <Button variant="primary" className="extraButton">
-                    Tạo nhắc nợ
+                    Create debt reminder
                   </Button>
                 </Link>
               </Col>
             </Card.Body>
-            <Card.Footer className="text-muted">
-              HCMUS - PTUDWNC - 21KTPM1
-            </Card.Footer>
           </Card>
         </Col>
       </Row>
