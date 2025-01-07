@@ -23,19 +23,19 @@ const reducerUserInformation = (state = initialState, action) => {
 	switch (type) {
 		case UserInformationActionTypes.USER_GET_ALL_INFORMATION: {
 			return {
-				...state,
-				data: {
-					id: payload._id,
-					accountNumber: payload.accountNumber,
-					username: payload.username,
-					name: payload.name,
-					email: payload.email,
-					phone: payload.phone,
-					status: payload.status,
-					role: payload.role,
-					balance: payload.balance,
-				},
-			};
+        ...state,
+        data: {
+          id: payload.id,
+          accountNumber: payload.accountNumber,
+          username: payload.username,
+          name: payload.name,
+          email: payload.email,
+          phone: payload.phoneNumber,
+          status: payload.status,
+          role: payload.role,
+          balance: payload.balance,
+        },
+      };
 		}
 		// case UserInformationActionTypes.USER_UPDATE_INFORMATION_PENDING: {
 		// 	return {

@@ -8,6 +8,7 @@ import AlertBox from "../../Others/AlertBox/AlertBox";
 const PayInForm = (props) => {
   const { reducerAuthorization, reducerUserInformation } = props;
   const { accessToken } = reducerAuthorization.authentication;
+  const { id } = reducerUserInformation.data;
   const [validated, setValidated] = useState(false);
 
   const [formVariables, setFormVariables] = useState({
@@ -58,16 +59,13 @@ const PayInForm = (props) => {
       console.log(formVariables);
       setFormVariables({ ...formVariables, isLoading: true });
       await axios
-        .post("/api/admin/deposit", {
-          receivedUserId: formVariables.accountNumber,
-          receivedUserName: formVariables.name,
-          receivedBankId: +formVariables.bankId,
+        .post("/api/protected/transactions/deposit", {
+          serviceProviderId: id,
+          receiverAccountNumber: formVariables.accountNumber,
           amount: +formVariables.amount,
-          content: formVariables.content,
         })
         .then((result) => {
-          console.log();
-          if (result.status === 200) setFormError(null, "Nạp tiền thành công");
+          if (result.status === 201) setFormError(null, "Nạp tiền thành công");
         })
         .catch((err) => {
           const { response } = err;
@@ -88,7 +86,7 @@ const PayInForm = (props) => {
       setFormVariables({ ...setFormVariables, name: "WAITING..." });
 
       const name = await axios
-        .get(`/api/users/bank/${bankId}/users/${accountNumber}`)
+        .get(`/api/protected/customer/bank/${bankId}/users/${accountNumber}`)
         .then((result) => {
           if (result.data.name) return result.data.name;
           return "KHONG TIM THAY";
@@ -107,7 +105,7 @@ const PayInForm = (props) => {
   return (
     <Container fluid>
       <Row>
-        <Col md={{ span: 6, offset: 3 }} lg={6}>
+        <Col md={{ span: 6, offset: 3 }} lg={5}>
           <Card className="text-center" className="mt-3">
             <Card.Header className="text-center toolbar">
               <span>DEPOSIT MONEY FOR CUSTOMER</span>
@@ -215,9 +213,6 @@ const PayInForm = (props) => {
                 </Col>
               </Form>
             </Card.Body>
-            {/* <Card.Footer className="text-muted text-center">
-              HCMUS - PTUDWNC - 21KTPM1
-            </Card.Footer> */}
           </Card>
         </Col>
       </Row>
