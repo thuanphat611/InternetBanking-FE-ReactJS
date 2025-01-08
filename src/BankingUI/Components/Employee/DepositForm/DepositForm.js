@@ -65,7 +65,7 @@ const PayInForm = (props) => {
           amount: +formVariables.amount,
         })
         .then((result) => {
-          if (result.status === 201) setFormError(null, "Nạp tiền thành công");
+          if (result.status === 200) setFormError(null, "Nạp tiền thành công");
         })
         .catch((err) => {
           const { response } = err;
@@ -188,7 +188,7 @@ const PayInForm = (props) => {
                     isInvalid={formVariables.amount % 1000 !== 0}
                   />
                   <Form.Control.Feedback type="invalid">
-                    Số tiền phải chia hết cho 1.000đ.
+                    The amount must be divisible by 1,000 VND.
                   </Form.Control.Feedback>
                   <Form.Text className="text-muted font-weight-bold">
                     Content
@@ -202,13 +202,10 @@ const PayInForm = (props) => {
                     onChange={(e) => handleChange(e)}
                     isInvalid={formVariables.content === ""}
                   />
-                  <Form.Control.Feedback type="invalid">
-                    Hãy điền lời nhắn phù hợp.
-                  </Form.Control.Feedback>
                 </Form.Group>
                 <Col className="d-flex justify-content-center align-items-center">
                   <Button variant="primary" type="submit" className="mt-3">
-                    Next
+                    Confirm
                   </Button>
                 </Col>
               </Form>

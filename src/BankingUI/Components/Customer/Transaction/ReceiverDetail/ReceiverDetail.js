@@ -283,10 +283,10 @@ const ReceiverDetail = (props) => {
         }}
       >
         <Nav.Item>
-          <Nav.Link eventKey="component-0">Add new receiver</Nav.Link>
+          <Nav.Link eventkey="component-0">Add new receiver</Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link eventKey="component-1">From receivers list</Nav.Link>
+          <Nav.Link eventkey="component-1">From receivers list</Nav.Link>
         </Nav.Item>
       </Nav>
       <hr />

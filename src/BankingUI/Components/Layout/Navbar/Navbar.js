@@ -66,7 +66,7 @@ const Header = (props) => {
           <Nav.Link as={Link} to="/notification" className="text-light">
             <FontAwesomeIcon icon={faBell} />
           </Nav.Link>
-          <Button eventKey={2} variant="danger" onClick={handleLogout}>
+          <Button eventkey={2} variant="danger" onClick={handleLogout}>
             <FontAwesomeIcon icon={faPowerOff} /> Logout
           </Button>
         </Nav>
@@ -103,7 +103,7 @@ const Header = (props) => {
               Join Chat
             </Link>
           </Nav.Link>
-          <Button eventKey={2} variant="danger" onClick={handleLogout}>
+          <Button eventkey={2} variant="danger" onClick={handleLogout}>
             <FontAwesomeIcon icon={faPowerOff} /> Logout
           </Button>
         </Nav>

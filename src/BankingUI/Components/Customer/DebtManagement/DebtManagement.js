@@ -9,47 +9,47 @@ import moneyFormatter from "../../HelperFunctions/moneyFormatter";
 import DebtFilter from "./DebtFilter/DebtFilter";
 
 const DebtManagement = (props) => {
-	const {
-		reducerAuthorization,
-		reducerUserInformation,
-		reducerUserTransactions,
-	} = props;
-	const currentUser = reducerUserInformation.data;
-	const [renderOption, setRenderOption] = useState("pending-mine");
-	const [debtsData, setDebtsData] = useState([]);
-	const [step, setStep] = useState("debt-list");
-	const mountedRef = useRef(true);
+  const {
+    reducerAuthorization,
+    reducerUserInformation,
+    reducerUserTransactions,
+  } = props;
+  const currentUser = reducerUserInformation.data;
+  const [renderOption, setRenderOption] = useState("pending-mine");
+  const [debtsData, setDebtsData] = useState([]);
+  const [step, setStep] = useState("debt-list");
+  const mountedRef = useRef(true);
 
-	useEffect(() => {
-		if (!mountedRef.current) return null;
+  useEffect(() => {
+    if (!mountedRef.current) return null;
 
-		let isGettingAList = true;
-		getList(isGettingAList);
-		return () => {
-			mountedRef.current = false;
-			isGettingAList = false;
-		};
-	}, []);
+    let isGettingAList = true;
+    getList(isGettingAList);
+    return () => {
+      mountedRef.current = false;
+      isGettingAList = false;
+    };
+  }, []);
 
-	const getList = async (isGettingAList) => {
+  const getList = async (isGettingAList) => {
     console.log(currentUser);
-		await axios
-			.get(`/api/protected/dept-reminder/send/${currentUser.accountNumber}`)
-			.then((result) => result.data.data)
-			.then((result) => {
-				if (isGettingAList) {
-					result.reverse();
-					console.log(result);
-					setDebtsData(result);
-					isGettingAList = false;
-				}
-			})
-			.catch((error) => {
-				console.log(error.response);
-			});
-	};
+    await axios
+      .get(`/api/protected/dept-reminder/send/${currentUser.accountNumber}`)
+      .then((result) => result.data.data)
+      .then((result) => {
+        if (isGettingAList) {
+          result.reverse();
+          console.log(result);
+          setDebtsData(result);
+          isGettingAList = false;
+        }
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  };
 
-	return (
+  return (
     <Container fluid>
       <Row>
         <Col md={{ span: 5, offset: 3 }} lg={6}>
@@ -66,15 +66,17 @@ const DebtManagement = (props) => {
                 }}
               >
                 <Nav.Item>
-                  <Nav.Link eventKey="pending-mine">
+                  <Nav.Link eventkey="pending-mine">
                     Your debt reminder
                   </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link eventKey="pending-theirs">Debt reminder Received</Nav.Link>
+                  <Nav.Link eventkey="pending-theirs">
+                    Debt reminder Received
+                  </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link eventKey="paid">Completed</Nav.Link>
+                  <Nav.Link eventkey="paid">Completed</Nav.Link>
                 </Nav.Item>
               </Nav>
               <DebtFilter
