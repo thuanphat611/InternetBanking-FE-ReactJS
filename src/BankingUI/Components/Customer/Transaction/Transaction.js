@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Col, Row, Card, Container, Form, Table } from "react-bootstrap";
+import React, { useState } from "react";
+import { Col, Row, Card, Container } from "react-bootstrap";
 
 import ReceiverDetail from "./ReceiverDetail/ReceiverDetail";
 import AddAmountForm from "./AddAmountForm/AddAmountForm";
@@ -154,9 +154,6 @@ const Transaction = (props) => {
               {renderAlert()}
               {renderStepForm()}
             </Card.Body>
-            {/* <Card.Footer className="text-muted text-center">
-              HCMUS - PTUDWNC - 21KTPM1
-            </Card.Footer> */}
           </Card>
         </Col>
       </Row>

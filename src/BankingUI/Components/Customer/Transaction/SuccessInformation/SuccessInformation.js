@@ -83,7 +83,7 @@ const SuccessInformation = (props) => {
           variant="primary"
           type="submit"
           onClick={() => {
-            setStep(0);
+            window.location.reload();
           }}
         >
           Close

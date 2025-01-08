@@ -154,10 +154,11 @@ const ReceiverDetail = (props) => {
               </thead>
               <tbody>
                 {receiversData.map((receiver, index) => {
+                  console.log(receiver);
                   return (
                     <tr key={index}>
-                      <td>{receiver.accountNumber}</td>
-                      <td>{receiver.savedName}</td>
+                      <td>{receiver.receiverAccountId}</td>
+                      <td>{receiver.nickName}</td>
                       <td>
                         {receiver.bankId === 0
                           ? "DOMLand Bank"
@@ -172,7 +173,7 @@ const ReceiverDetail = (props) => {
                           onClick={() => {
                             console.log(formVariables);
                             getThisUserName(
-                              receiver.accountNumber,
+                              receiver.receiverAccountId,
                               receiver.bankId
                             );
                             setStep(2);
@@ -283,10 +284,10 @@ const ReceiverDetail = (props) => {
         }}
       >
         <Nav.Item>
-          <Nav.Link eventkey="component-0">Add new receiver</Nav.Link>
+          <Nav.Link eventKey="component-0">Add new receiver</Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link eventkey="component-1">From receivers list</Nav.Link>
+          <Nav.Link eventKey="component-1">From receivers list</Nav.Link>
         </Nav.Item>
       </Nav>
       <hr />
