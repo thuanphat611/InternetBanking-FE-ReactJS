@@ -198,7 +198,7 @@ const App = (props) => {
 
     if (
       authentication.accessToken &&
-      authentication.accessToken != "undefined"
+      authentication.accessToken !== "undefined"
     ) {
       setRole(jwtDecode(authentication.accessToken).role);
       axios
