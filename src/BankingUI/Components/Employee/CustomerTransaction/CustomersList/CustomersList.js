@@ -39,7 +39,6 @@ const CustomersList = (props) => {
       <Column title="Email" dataIndex="email" key="email" />
       <Column title="Balance(VND)" dataIndex="balance" key="balance" className="text-center"/>
       <Column
-        className="d-flex justify-content-center"
         title="transactionHistory"
         key="transactionHistory"
         render={(item) => (

@@ -75,19 +75,19 @@ const Header = (props) => {
   );
 
   const AdminNavbar = () => (
-    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+    <Navbar
+      collapseOnSelect
+      expand="lg"
+      bg="dark"
+      variant="dark"
+      className="px-4"
+    >
       <Link to="/">
         <Navbar.Brand href="/">INTERNET BANKING</Navbar.Brand>
       </Link>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
-        <Nav className="mr-auto">
-          <Navbar.Text className="text-light">
-            <Image src="./tic-tac-toe.png" className="avatar" roundedCircle />{" "}
-            <span className="text-light bold">{name}</span>
-          </Navbar.Text>
-        </Nav>
-        <Nav>
+        <Nav className="me-auto">
           <Nav.Link>
             <Link to="/edit" className="text-light mr-2">
               Edit profile
@@ -98,12 +98,14 @@ const Header = (props) => {
               Statistics
             </Link>
           </Nav.Link>
-          <Nav.Link>
+          {/* <Nav.Link>
             <Link to="/join" className="text-light mr-2">
               Join Chat
             </Link>
-          </Nav.Link>
-          <Button eventkey={2} variant="danger" onClick={handleLogout}>
+          </Nav.Link> */}
+        </Nav>
+        <Nav>
+          <Button eventKey={2} variant="danger" onClick={handleLogout}>
             <FontAwesomeIcon icon={faPowerOff} /> Logout
           </Button>
         </Nav>

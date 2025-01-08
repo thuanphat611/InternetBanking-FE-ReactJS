@@ -84,7 +84,8 @@ const TransactionList = (props) => {
             return (
               <Alert variant={transactionType} key={index}>
                 <Badge className="text-md text-black">
-                  {item.type.toUpperCase()} TRANSACTION
+                  {item.type === "dept" ? "DEBT" : item.type.toUpperCase()}{" "}
+                  TRANSACTION
                 </Badge>{" "}
                 <Col className="d-flex align-items-center justify-content-between">
                   <span>
@@ -101,18 +102,6 @@ const TransactionList = (props) => {
                 <hr />
                 <Col className="d-flex justify-content-between">
                   <span>{dateToShow}</span>
-                  <Button
-                    variant="success"
-                    size="sm float-right"
-                    onClick={() => {
-                      setWorkingTransaction(
-                        Object.assign(workingTransaction, item)
-                      );
-                      setLittleStep("detail");
-                    }}
-                  >
-                    <FontAwesomeIcon icon={faEye} />
-                  </Button>
                 </Col>
               </Alert>
             );

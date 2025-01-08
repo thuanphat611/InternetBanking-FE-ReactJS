@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Col,
   Row,
@@ -8,14 +8,11 @@ import {
   Form,
   Spinner,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import axios from "axios";
 
 import AlertBox from "../../Others/AlertBox/AlertBox";
 
 const NewEmployeeForm = (props) => {
-  const { reducerAuthorization } = props;
-  const { accessToken } = reducerAuthorization.authentication;
   const [validated, setValidated] = useState(false);
 
   const [formVariables, setFormVariables] = useState({
@@ -25,6 +22,7 @@ const NewEmployeeForm = (props) => {
     name: "",
     phone: "",
     email: "",
+    address: "",
     role: "employee",
     status: true,
     password: "",
@@ -65,26 +63,32 @@ const NewEmployeeForm = (props) => {
       event.stopPropagation();
     } else {
       setFormVariables({ ...formVariables, isLoading: true });
+      console.log({
+        name: formVariables.name,
+        password: formVariables.password,
+        email: formVariables.email,
+        phoneNumber: formVariables.phone,
+        address: formVariables.address,
+        role: "Employee",
+      });
       axios
-        .post("/api/users", {
-          accountNumber: formVariables.accountNumber,
-          username: formVariables.username,
-          password: formVariables.password,
+        .post("/api/protected/service-provider", {
           name: formVariables.name,
-          balance: formVariables.balance,
+          password: formVariables.password,
           email: formVariables.email,
-          phone: formVariables.phone,
-          status: formVariables.status,
-          role: formVariables.role,
+          phoneNumber: formVariables.phone,
+          address: formVariables.address,
+          role: "Employee",
         })
         .then((result) => {
-          if (result.status === 200) setFormError(null, result.data.message);
+          if (result.status === 201)
+            setFormError(null, "New employee created!");
         })
         .catch((err) => {
           const { response } = err;
           console.log(err.response);
           if (response.status === 400) {
-            setFormError(true, response.data.message);
+            setFormError(true, "Something's wrong!");
           } else setFormError(true, "Something's wrong!");
         });
     }
@@ -97,46 +101,12 @@ const NewEmployeeForm = (props) => {
         <Col md={{ span: 6, offset: 3 }} lg={6}>
           <Card className="text-center mt-3">
             <Card.Header className="text-center toolbar">
-              <span>TẠO NHÂN VIÊN MỚI</span>
+              <span>CREATE NEW EMPLOYEE</span>
             </Card.Header>
             <Card.Body>
               {renderAlert()}
               <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Form.Group>
-                  <Row>
-                    <Col>
-                      <Form.Text className="text-muted font-weight-bold">
-                        Account Number
-                      </Form.Text>
-                      <Form.Control
-                        required
-                        type="text"
-                        name="accountNumber"
-                        value={formVariables.accountNumber}
-                        onChange={(e) => handleChange(e)}
-                      />
-                    </Col>
-                    <Col>
-                      <Form.Text className="text-muted font-weight-bold">
-                        Username
-                      </Form.Text>
-                      <Form.Control
-                        required
-                        type="text"
-                        name="username"
-                        value={formVariables.username}
-                        onChange={(e) => handleChange(e)}
-                      />
-                    </Col>
-                  </Row>
-                  <Form.Text className="text-muted">
-                    Tài khoản nhân viên nên bắt đầu bằng "001". Vd: 0012, 0013
-                  </Form.Text>
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label className="font-weight-bold">
-                    Basic information
-                  </Form.Label>
                   <Form.Text className="text-muted font-weight-bold">
                     Name
                   </Form.Text>
@@ -176,11 +146,21 @@ const NewEmployeeForm = (props) => {
                   <Form.Control.Feedback type="invalid">
                     Please fill the field.
                   </Form.Control.Feedback>
+                  <Form.Text className="text-muted font-weight-bold">
+                    Address
+                  </Form.Text>
+                  <Form.Control
+                    required
+                    type="address"
+                    name="address"
+                    value={formVariables.address}
+                    onChange={(e) => handleChange(e)}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Please fill the field.
+                  </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group>
-                  <Form.Label className="font-weight-bold">
-                    Secret fields
-                  </Form.Label>
                   <Form.Text className="text-muted font-weight-bold">
                     Password
                   </Form.Text>
@@ -195,13 +175,13 @@ const NewEmployeeForm = (props) => {
                     Please fill the field.
                   </Form.Control.Feedback>
                 </Form.Group>
-                <Button variant="primary" type="submit">
+                <Button variant="primary" type="submit" className="mt-3">
                   {formVariables.isLoading ? (
                     <>
                       <Spinner animation="border" size="sm" /> Waiting...
                     </>
                   ) : (
-                    <>Add</>
+                    <>Create</>
                   )}
                 </Button>
               </Form>

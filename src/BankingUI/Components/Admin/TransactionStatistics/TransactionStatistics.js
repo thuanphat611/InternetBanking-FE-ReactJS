@@ -1,69 +1,68 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Col, Row, Card, Container, Form } from "react-bootstrap";
+import { Col, Row, Card, Container } from "react-bootstrap";
 import { Table, Badge, Button, Space, DatePicker } from "antd";
 import axios from "axios";
 import getBankName from "../../HelperFunctions/getBankName";
 import formatter from "../../HelperFunctions/moneyFormatter";
 import TransactionDetail from "../../Customer/TransactionManagement/TransactionDetail/TransactionDetail";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faBackward } from "@fortawesome/free-solid-svg-icons";
+import { faBackward } from "@fortawesome/free-solid-svg-icons";
 
-const { Column, ColumnGroup } = Table;
+const { Column } = Table;
 const { RangePicker } = DatePicker;
 
 const TransactionStatistics = (props) => {
-	const [transactionsData, setTransactionsData] = useState([]);
-	const [filteredTransactionsData, setFilteredTransactionsData] = useState([]);
-	const [step, setStep] = useState("table");
-	const [workingTransaction, setWorkingTransaction] = useState({
-		sentUserId: "",
-	});
-	// const [fromDate, setFromDate] = useState(null);
-	let range = null;
-	const mountedRef = useRef(true);
+  const [transactionsData, setTransactionsData] = useState([]);
+  const [filteredTransactionsData, setFilteredTransactionsData] = useState([]);
+  const [step, setStep] = useState("table");
+  const [workingTransaction, setWorkingTransaction] = useState({
+    sentUserId: "",
+  });
+  let range = null;
+  const mountedRef = useRef(true);
 
-	useEffect(() => {
-		if (!mountedRef.current) return null;
+  useEffect(() => {
+    if (!mountedRef.current) return null;
 
-		getList();
+    getList();
 
-		return () => {
-			mountedRef.current = false;
-		};
-	}, []);
+    return () => {
+      mountedRef.current = false;
+    };
+  }, []);
 
-	const getList = async () => {
-		await axios
-			.get(`/api/admin/transactions`)
-			.then((result) => result.data.data)
-			.then((result) => {
-				console.log(result);
-				setTransactionsData(result);
-				setFilteredTransactionsData(result);
-			})
-			.catch((error) => {
-				console.log(error.response);
-			});
-	};
+  const getList = async () => {
+    await axios
+      .get(`/api/admin/transactions`)
+      .then((result) => result.data.data)
+      .then((result) => {
+        console.log(result);
+        setTransactionsData(result);
+        setFilteredTransactionsData(result);
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  };
 
-	const onFilter = (range) => {
-		if (range === null) return alert("Sai");
-		const fromDateUTC = new Date(range.fromDate);
-		const toDateUTC = new Date(range.toDate);
-		const newTransactionData = transactionsData.filter((item) => {
-			const createdAtDate = new Date(item.createdAt);
-			if (fromDateUTC <= createdAtDate && toDateUTC >= createdAtDate)
-				return true;
-			return false;
-		});
-		console.log(newTransactionData);
-		setFilteredTransactionsData(newTransactionData);
-	};
+  const onFilter = (range) => {
+    if (range === null) return alert("Wrong information");
+    const fromDateUTC = new Date(range.fromDate);
+    const toDateUTC = new Date(range.toDate);
+    const newTransactionData = transactionsData.filter((item) => {
+      const createdAtDate = new Date(item.createdAt);
+      if (fromDateUTC <= createdAtDate && toDateUTC >= createdAtDate)
+        return true;
+      return false;
+    });
+    console.log(newTransactionData);
+    setFilteredTransactionsData(newTransactionData);
+  };
 
-	const StatisticTable = () => {
-		return (
+  const StatisticTable = () => {
+    return (
       <>
-        <Space>
+        <Space className="mb-3">
           <RangePicker
             onChange={(dates, dateStrings) => {
               console.log("hello: ", dates, dateStrings);
@@ -148,36 +147,36 @@ const TransactionStatistics = (props) => {
         </Table>
       </>
     );
-	};
+  };
 
-	return (
-		<Container fluid>
-			<Row>
-				<Col md={{ span: 5, offset: 3 }} lg={6}>
-					<Card className="mt-3">
-						<Card.Header className="toolBar">TRA SOÁT GIAO DỊCH</Card.Header>
-						<Card.Body>
-							{step === "table" && <StatisticTable />}
-							{step === "transaction-detail" && (
-								<>
-									<Button
-										variant="light"
-										size="sm"
-										onClick={() => {
-											setStep("table");
-										}}
-									>
-										<FontAwesomeIcon icon={faBackward} /> BACK
-									</Button>
-									<TransactionDetail transactionDetail={workingTransaction} />
-								</>
-							)}
-						</Card.Body>
-					</Card>
-				</Col>
-			</Row>
-		</Container>
-	);
+  return (
+    <Container fluid>
+      <Row>
+        <Col md={{ span: 5, offset: 3 }} lg={6}>
+          <Card className="mt-3">
+            <Card.Header className="toolBar">CUSTOMER TRANSACTION</Card.Header>
+            <Card.Body>
+              {step === "table" && <StatisticTable />}
+              {step === "transaction-detail" && (
+                <>
+                  <Button
+                    variant="light"
+                    size="sm"
+                    onClick={() => {
+                      setStep("table");
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faBackward} /> BACK
+                  </Button>
+                  <TransactionDetail transactionDetail={workingTransaction} />
+                </>
+              )}
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
+  );
 };
 
 export default TransactionStatistics;
