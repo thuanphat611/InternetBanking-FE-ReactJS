@@ -9,13 +9,16 @@ const ModalForm = ({
   accessToken,
   setWorkingReceiver,
   isAdding,
+  customerData,
 }) => {
   const [validated, setValidated] = useState(false);
 
+  console.log("currentUser:", customerData);
   // Lấy tên người dùng khi bấm vào receiver có sẵn.
   useEffect(() => {
     if (!isAdding)
       getThisUserName(workingReceiver.accountNumber, workingReceiver.bankId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [workingReceiver.accountNumber, workingReceiver.bankId]);
 
   // Hàm lấy tên người dùng theo accountNumber, gọi qua API
@@ -25,7 +28,7 @@ const ModalForm = ({
     if (bankId !== -1 && accountNumber !== "") {
       setWorkingReceiver({ ...workingReceiver, name: "WAITING..." });
       const result = await axios
-        .get(`/api/users/bank/${bankId}/users/${accountNumber}`)
+        .get(`/api/protected/customer/bank/${bankId}/users/${accountNumber}`)
         .then((result) => {
           console.log(result.data);
           if (result.data.name) {
@@ -49,8 +52,9 @@ const ModalForm = ({
 
   // Update giá trị điền vào Form
   const handleChange = (e) => {
-    workingReceiver[e.target.name] = e.target.value;
-    setWorkingReceiver({ ...workingReceiver });
+    const newValue = { ...workingReceiver };
+    newValue[e.target.name] = e.target.value;
+    setWorkingReceiver(newValue);
   };
 
   // Submit
@@ -65,23 +69,27 @@ const ModalForm = ({
     } else {
       if (isAdding) {
         // Nếu như là add vào một receiver mới
-        await axios.patch(`/api/users/receiver-list`, {
-          savedName:
+        await axios.post(`/api/protected/receiver`, {
+          nickName:
             workingReceiver.savedName !== ""
               ? workingReceiver.savedName
               : workingReceiver.username,
           bankId: +workingReceiver.bankId,
-          accountNumber: workingReceiver.accountNumber,
+          senderAccountNumber: customerData.accountNumber,
+          receiverAccountNumber: workingReceiver.accountNumber,
+          type: +workingReceiver.bankId === 0 ? "internal" : "external",
         });
       } else {
         // Nếu như update (chỉ đổi savedName)
-        await axios.patch(`/api/users/receiver-list-update`, {
-          savedName:
+        await axios.patch(`/api/protected/receiver`, {
+          nickName:
             workingReceiver.savedName !== ""
               ? workingReceiver.savedName
               : workingReceiver.username,
           bankId: +workingReceiver.bankId,
-          accountNumber: workingReceiver.accountNumber,
+          senderAccountNumber: customerData.accountNumber,
+          receiverAccountNumber: workingReceiver.accountNumber,
+          type: +workingReceiver.bankId === 0 ? "internal" : "external",
         });
       }
     }
@@ -104,7 +112,7 @@ const ModalForm = ({
                   required
                   type="text"
                   name="accountNumber"
-                  value={workingReceiver.accountNumber}
+                  value={workingReceiver.receiverAccountId}
                   onChange={(e) => handleChange(e)}
                   disabled
                 />
@@ -127,10 +135,7 @@ const ModalForm = ({
                 </Form.Control>
               </Col>
             </Row>
-            <Form.Text className="text-muted">
-              You cannot change this value. You will use this username to login.
-            </Form.Text>
-            <Form.Text className="text-muted font-weight-bold">
+            {/* <Form.Text className="text-muted font-weight-bold">
               Full name
             </Form.Text>
             <Form.Control
@@ -140,7 +145,7 @@ const ModalForm = ({
               value={workingReceiver.name}
               onChange={(e) => handleChange(e)}
               disabled
-            />
+            /> */}
           </Form.Group>
           <Form.Group>
             <Form.Text className="text-muted font-weight-bold">
@@ -149,22 +154,24 @@ const ModalForm = ({
             <Form.Control
               type="text"
               name="savedName"
-              value={workingReceiver.savedName}
-              onChange={(e) => handleChange(e)}
+              value={workingReceiver.nickName}
+              onChange={(e) =>
+                setWorkingReceiver({
+                  ...workingReceiver,
+                  nickName: e.target.value,
+                })
+              }
             />
-            <Form.Text className="text-muted">
-              We will use user's name in case saved name is missing.
-            </Form.Text>
             <Form.Control.Feedback type="invalid">
               Please fill the field.
             </Form.Control.Feedback>
           </Form.Group>
           <Modal.Footer>
-            <Button variant="primary" type="submit">
-              Edit
-            </Button>
             <Button variant="outlined" onClick={handleClose}>
               Close
+            </Button>
+            <Button variant="primary" type="submit">
+              Edit
             </Button>
           </Modal.Footer>
         </Form>

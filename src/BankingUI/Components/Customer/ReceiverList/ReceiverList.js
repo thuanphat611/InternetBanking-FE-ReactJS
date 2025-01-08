@@ -19,6 +19,7 @@ const ReceiverList = (props) => {
   });
   const mountedRef = useRef(true);
   const receiversData = reducerUserInformation.receivers;
+  const customerData = reducerUserInformation.data;
   const [workingReceiver, setWorkingReceiver] = useState({
     accountNumber: "",
     savedName: "",
@@ -26,6 +27,8 @@ const ReceiverList = (props) => {
     name: "",
     username: "",
   });
+
+  console.log(receiversData);
 
   useEffect(() => {
     if (!mountedRef.current) return null;
@@ -41,6 +44,7 @@ const ReceiverList = (props) => {
       return;
     if (modalFormVariables.isAdding) return;
     handleShowFormModal(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [workingReceiver]);
 
   const handleClose = () => {
@@ -68,9 +72,15 @@ const ReceiverList = (props) => {
   };
 
   // Delete
-  const deleteReceiver = async (accountNumber, bankId) => {
-    await axios.delete(`/api/users/receiver-list`, {
-      data: { accountNumber: accountNumber, bankId: +bankId },
+  const deleteReceiver = async (nickName, accountNumber, bankId) => {
+    await axios.delete(`/api/protected/receiver`, {
+      data: {
+        nickName,
+        bankId,
+        senderAccountNumber: customerData.accountNumber,
+        receiverAccountNumber: accountNumber,
+        type: bankId === 0 ? "internal" : "external",
+      },
     });
     window.location.reload();
   };
@@ -117,7 +127,11 @@ const ReceiverList = (props) => {
                       variant="danger"
                       size="sm"
                       onClick={() =>
-                        deleteReceiver(receiver.accountNumber, receiver.bankId)
+                        deleteReceiver(
+                          receiver.nickName,
+                          receiver.receiverAccountId,
+                          receiver.bankId
+                        )
                       }
                     >
                       <FontAwesomeIcon icon={faTrash} />
@@ -152,6 +166,7 @@ const ReceiverList = (props) => {
               workingReceiver={workingReceiver}
               setWorkingReceiver={setWorkingReceiver}
               accessToken={reducerAuthorization.authentication.accessToken}
+              customerData={customerData}
             />
             <Card.Body>{showComponent()}</Card.Body>
           </Card>
