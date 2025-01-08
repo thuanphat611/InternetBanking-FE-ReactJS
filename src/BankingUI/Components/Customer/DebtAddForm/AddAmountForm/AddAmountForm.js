@@ -5,57 +5,62 @@ import { faBackward } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 
 const AddAmountForm = (props) => {
-	const {
-		formVariables,
-		setFormVariables,
-		accessToken,
-		setStep,
-		balance,
-		setFormError,
-	} = props;
-	const [validated, setValidated] = useState(false);
+  const {
+    formVariables,
+    setFormVariables,
+    accessToken,
+    setStep,
+    setFormError,
+    accountNumber,
+  } = props;
+  const [validated, setValidated] = useState(false);
 
-	// Update giá trị điền vào Form
-	const handleChange = (e) => {
-		formVariables[e.target.name] = e.target.value;
-		setFormVariables({ ...formVariables });
-	};
+  // Update giá trị điền vào Form
+  const handleChange = (e) => {
+    formVariables[e.target.name] = e.target.value;
+    setFormVariables({ ...formVariables });
+  };
 
-	const handleSubmit = async (event) => {
-		const form = event.currentTarget;
-		event.preventDefault();
-		if (
-			form.checkValidity() === false ||
-			formVariables.name == "" ||
-			formVariables.name == "KHONG TIM THAY"
-		) {
-			event.stopPropagation();
-		} else {
-			console.log(formVariables);
-			axios
-				.post("/api/debt", {
-					receivedUserId: formVariables.accountNumber,
-					receivedBankId: formVariables.bankId,
-					amount: formVariables.amount,
-					debtContent: formVariables.content,
-				})
-				.then((result) => {
-					setFormError(null, "Nhắc nợ thành công");
-					console.log(result.message);
-				})
-				.catch((err) => {
-					setFormError(true, err.response);
-					console.log(err.response);
-				});
-			// setStep(3);
-			// setFormError(null, "");
-			// } else
-			// 	setFormError(true, "Tiền không đủ, chuyển cái gì mà chuyển hả trời!");
-		}
-		setValidated(true);
-	};
+  const handleSubmit = async (event) => {
+    const form = event.currentTarget;
+    event.preventDefault();
+    if (
+      form.checkValidity() === false ||
+      formVariables.name === "" ||
+      formVariables.name === "KHONG TIM THAY"
+    ) {
+      event.stopPropagation();
+    } else {
+      console.log({
+        senderAccountNumber: accountNumber,
+        receiverAccountNumber: formVariables.accountNumber,
+        amount: formVariables.amount,
+        description: formVariables.content,
+      });
+      axios
+        .post("/api/protected/dept-reminder/create", {
+          senderAccountNumber: accountNumber,
+          receiverAccountNumber: formVariables.accountNumber,
+          amount: formVariables.amount,
+          description: formVariables.content,
+        })
+        .then((result) => {
+          setFormError(null, "Debt reminder created");
+          console.log(result.message);
+        })
+        .catch((err) => {
+          setFormError(true, "Something's wrong, please try again.");
+          console.log(err.response);
+        });
+      // setStep(3);
+      // setFormError(null, "");
+      // } else
+      // 	setFormError(true, "Tiền không đủ, chuyển cái gì mà chuyển hả trời!");
+    }
+    setValidated(true);
+  };
 
-	return (
+  return (
     <>
       <h5>Step 2: Add money amount and description</h5>
       <hr />
@@ -121,10 +126,12 @@ const AddAmountForm = (props) => {
             name="amount"
             value={formVariables.amount}
             onChange={(e) => handleChange(e)}
-            isInvalid={formVariables.amount % 1000 !== 0}
+            isInvalid={
+              formVariables.amount % 1000 !== 0 && formVariables.amount === 0
+            }
           />
           <Form.Control.Feedback type="invalid">
-            Số tiền phải chia hết cho 1.000đ
+            The amount must be divisible by 1,000đ and cannot be zero
           </Form.Control.Feedback>
           <Form.Text className="text-muted font-weight-bold">Message</Form.Text>
           <Form.Control
@@ -134,22 +141,24 @@ const AddAmountForm = (props) => {
             name="content"
             value={formVariables.content}
             onChange={(e) => handleChange(e)}
-            isInvalid={formVariables.content === ""}
+            isInvalid={formVariables.debtContent.length === 0}
           />
           <Form.Control.Feedback type="invalid">
             Give your receiver a message to know
           </Form.Control.Feedback>
         </Form.Group>
-        <Button variant="primary" type="submit">
-          Next
-        </Button>
-        <Button
-          variant="primary-outline"
-          type="button"
-          onClick={() => setStep(1)}
-        >
-          <FontAwesomeIcon icon={faBackward} /> Back
-        </Button>
+        <Col className="d-flex justify-content-center gap-3 mt-3">
+          <Button
+            variant="primary-outline"
+            type="button"
+            onClick={() => setStep(1)}
+          >
+            <FontAwesomeIcon icon={faBackward} /> Back
+          </Button>
+          <Button variant="primary" type="submit">
+            Next
+          </Button>
+        </Col>
       </Form>
     </>
   );

@@ -49,17 +49,6 @@ const BasicInfoForm = ({
               disabled
             />
           </Col>
-          <Col>
-            <Form.Text className="text-muted font-weight-bold">
-              Username
-            </Form.Text>
-            <Form.Control
-              required
-              type="text"
-              value={basicInfoForm.username}
-              disabled
-            />
-          </Col>
         </Row>
         <Form.Text className="text-muted">
           You cannot change this value. You will use this username to login.

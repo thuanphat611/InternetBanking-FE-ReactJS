@@ -1,25 +1,19 @@
-import React, { useEffect, useState, useRef } from "react";
-import { Button, Badge, Alert, Form, Spinner } from "react-bootstrap";
-import axios from "axios";
+import React, { useState } from "react";
+import { Button, Badge, Alert, Col } from "react-bootstrap";
 
 import AlertBox from "../../../Others/AlertBox/AlertBox";
 
 import moneyFormatter from "../../../HelperFunctions/moneyFormatter";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faTrash,
-  faBackward,
-  faMoneyBill,
-} from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faMoneyBill } from "@fortawesome/free-solid-svg-icons";
 
 import PayDebtForm from "../PayDebtForm/PayDebtForm";
 import OtpDebtForm from "../OtpDebtForm/OtpDebtForm";
 import DeleteDebtForm from "../DeleteDebtForm/DeleteDebtForm";
 
 const DebtsFilter = (props) => {
-  const { accessToken, currentUser, debtsData, filterType, step, setStep } =
-    props;
-  const [validated, setValidated] = useState(false);
+  const { currentUser, debtsData, filterType, step, setStep } = props;
+  // const [validated, setValidated] = useState(false);
   const [formVariables, setFormVariables] = useState({
     debtId: "",
     sentUserName: "",
@@ -40,8 +34,8 @@ const DebtsFilter = (props) => {
     receiverAccountNumber: "",
     amount: 0,
     description: "",
-    type: "dept"
-  })
+    type: "dept",
+  });
 
   const filterData = () => {
     let emptyList = [];
@@ -53,7 +47,6 @@ const DebtsFilter = (props) => {
             item.senderAccountId === currentUser.accountNumber
           );
         });
-        //console.log(emptyList);
         break;
       }
       case "pending-theirs": {
@@ -71,11 +64,18 @@ const DebtsFilter = (props) => {
         });
         break;
       }
+      default: {
+        emptyList = debtsData.filter((item) => {
+          return item.status === "Đã thanh toán";
+        });
+        break;
+      }
     }
     return emptyList;
   };
 
   const filteredData = filterData();
+  console.log(filteredData);
 
   // Update giá trị điền vào Form
   const handleChange = (e) => {
@@ -107,9 +107,9 @@ const DebtsFilter = (props) => {
     sendingForm["senderAccountNumber"] = item.receiverAccountId;
     sendingForm["receiverAccountNumber"] = item.senderAccountId;
     sendingForm["amount"] = item.amount;
-    formVariables["description"] = item.description
+    formVariables["description"] = item.description;
 
-    setSendingForm({...sendingForm});
+    setSendingForm({ ...sendingForm });
     console.log(sendingForm);
     setFormVariables({ ...formVariables });
     console.log(formVariables);
@@ -131,62 +131,69 @@ const DebtsFilter = (props) => {
       return (
         <div>
           {filteredData.map((item, index) => {
-            console.log(item)
+            console.log(item);
             let nameToShow = "";
             let moneyType, moneyDetail, transactionType, badgeName;
             let isSentByThisUser = true;
-            let isPaid = item.status === "Đã thanh toán";
+            let isPaid = item.status === "Paid";
             if (item.receiverAccountId === currentUser.accountNumber) {
               isSentByThisUser = false;
               nameToShow = item.senderUserName;
               moneyType = "danger";
               moneyDetail = moneyFormatter.format(item.amount);
               transactionType = "danger";
-              badgeName = "Đang nợ";
+              badgeName = "Owing";
             } else {
               nameToShow = item.receiverUserName;
               moneyType = "success";
               moneyDetail = moneyFormatter.format(item.amount);
               transactionType = "success";
-              badgeName = "Nhắc nợ cho";
+              badgeName = "Payment reminder for";
             }
             const badgeType = item.isDebt ? "secondary" : "primary";
             const dateToShow = new Date(item.createdAt).toDateString();
             return (
               <Alert variant={transactionType} key={index}>
-                <Badge variant={badgeType}>{badgeName}</Badge>{" "}
-                <span>
+                <Badge className="text-md text-black" variant={badgeType}>
+                  {badgeName} {filterType === "paid" && " - COMPLETED"}
+                </Badge>{" "}
+                <Col className="d-flex align-items-center justify-content-between">
                   <span>
                     <b>{nameToShow.toUpperCase()}</b>
                   </span>
-                  <Badge variant={moneyType} className="float-right money">
+                  <Badge
+                    variant={moneyType}
+                    className="text-black float-right money"
+                  >
                     {moneyDetail}
                   </Badge>
-                </span>
+                </Col>
                 <p>{item.debtContent}</p>
                 <hr />
-                <span>{dateToShow}</span>
-                <span className="float-right">
-                  {!isSentByThisUser && !isPaid && (
-                    <Button
-                      variant="success"
-                      className="mr-3"
-                      size="sm"
-                      onClick={() => moveNextStep(item, "pay")}
-                    >
-                      <FontAwesomeIcon icon={faMoneyBill} />
-                    </Button>
-                  )}
-                  {!isPaid && (
-                    <Button
-                      variant="danger"
-                      size="sm"
-                      onClick={() => moveNextStep(item, "delete")}
-                    >
-                      <FontAwesomeIcon icon={faTrash} />
-                    </Button>
-                  )}
-                </span>
+                <Col className="d-flex justify-content-between">
+                  <span>{dateToShow}</span>
+                  <span className="float-right">
+                    {!isSentByThisUser && !isPaid && (
+                      <Button
+                        variant="success"
+                        className="mr-3"
+                        size="sm"
+                        onClick={() => moveNextStep(item, "pay")}
+                      >
+                        <FontAwesomeIcon icon={faMoneyBill} />
+                      </Button>
+                    )}
+                    {!isPaid && filterType === "pending-mine" && (
+                      <Button
+                        variant="danger"
+                        size="sm"
+                        onClick={() => moveNextStep(item, "delete")}
+                      >
+                        <FontAwesomeIcon icon={faTrash} />
+                      </Button>
+                    )}
+                  </span>
+                </Col>
               </Alert>
             );
           })}
@@ -205,6 +212,7 @@ const DebtsFilter = (props) => {
           setStep={setStep}
           handleChange={handleChange}
           setFormError={setFormError}
+          currentUser={currentUser}
         />
       )}
       {step === "pay-debt" && (

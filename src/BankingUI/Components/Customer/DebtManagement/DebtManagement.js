@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Container, Col, Card, Row, Nav, Button, Alert } from "react-bootstrap";
+import { Container, Col, Card, Row, Nav } from "react-bootstrap";
 import axios from "axios";
 
 import AlertBox from "../../Others/AlertBox/AlertBox";
@@ -9,13 +9,9 @@ import moneyFormatter from "../../HelperFunctions/moneyFormatter";
 import DebtFilter from "./DebtFilter/DebtFilter";
 
 const DebtManagement = (props) => {
-  const {
-    reducerAuthorization,
-    reducerUserInformation,
-    reducerUserTransactions,
-  } = props;
+  const { reducerAuthorization, reducerUserInformation } = props;
   const currentUser = reducerUserInformation.data;
-  const [renderOption, setRenderOption] = useState("pending-mine");
+  const [renderOption, setRenderOption] = useState("pending-theirs");
   const [debtsData, setDebtsData] = useState([]);
   const [step, setStep] = useState("debt-list");
   const mountedRef = useRef(true);
@@ -29,6 +25,7 @@ const DebtManagement = (props) => {
       mountedRef.current = false;
       isGettingAList = false;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getList = async (isGettingAList) => {
@@ -60,23 +57,24 @@ const DebtManagement = (props) => {
                 fill
                 justify
                 variant="tabs"
-                defaultActiveKey="pending-mine"
+                defaultActiveKey="pending-theirs"
                 onSelect={(selectedKey) => {
                   setRenderOption(selectedKey);
                 }}
               >
                 <Nav.Item>
-                  <Nav.Link eventkey="pending-mine">
-                    Your debt reminder
-                  </Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link eventkey="pending-theirs">
+                  <Nav.Link eventKey="pending-theirs">
                     Debt reminder Received
                   </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link eventkey="paid">Completed</Nav.Link>
+                  <Nav.Link eventKey="pending-mine">
+                    Your debt reminder
+                  </Nav.Link>
+                </Nav.Item>
+
+                <Nav.Item>
+                  <Nav.Link eventKey="paid">Completed</Nav.Link>
                 </Nav.Item>
               </Nav>
               <DebtFilter

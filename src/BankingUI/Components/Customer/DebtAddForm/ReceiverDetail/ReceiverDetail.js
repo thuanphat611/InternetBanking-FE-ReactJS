@@ -8,13 +8,7 @@ import axios from "axios";
 import AlertBox from "../../../Others/AlertBox/AlertBox";
 
 const ReceiverDetail = (props) => {
-  const {
-    formVariables,
-    setFormVariables,
-    accessToken,
-    setStep,
-    setFormError,
-  } = props;
+  const { formVariables, setFormVariables, setStep, setFormError } = props;
   const [validated, setValidated] = useState(false);
   const [renderOption, setRenderOption] = useState("component-0");
   let receiversData = props.receiversData.filter((item) => item.bankId === 0);
@@ -26,7 +20,7 @@ const ReceiverDetail = (props) => {
     if (bankId !== -1 && accountNumber !== "") {
       setFormVariables({ ...setFormVariables, name: "WAITING..." });
       const name = await axios
-        .get(`/api/users/bank/${bankId}/users/${accountNumber}`)
+        .get(`/api/protected/customer/bank/${bankId}/users/${accountNumber}`)
         .then((result) => {
           if (result.data.name) return result.data.name;
           return "KHONG TIM THAY";
@@ -53,8 +47,8 @@ const ReceiverDetail = (props) => {
     event.preventDefault();
     if (
       form.checkValidity() === false ||
-      formVariables.name == "" ||
-      formVariables.name == "KHONG TIM THAY"
+      formVariables.name === "" ||
+      formVariables.name === "KHONG TIM THAY"
     ) {
       event.stopPropagation();
     } else {

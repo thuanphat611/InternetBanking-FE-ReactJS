@@ -53,8 +53,8 @@ const ReceiverDetail = (props) => {
     event.preventDefault();
     if (
       form.checkValidity() === false ||
-      formVariables.name == "" ||
-      formVariables.name == "NOT FOUND" ||
+      formVariables.name === "" ||
+      formVariables.name === "NOT FOUND" ||
       formVariables.name === "WAITING..."
     ) {
       event.stopPropagation();

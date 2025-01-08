@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Col, Row, Card, Container, Form, Table } from "react-bootstrap";
+import React, { useState } from "react";
+import { Col, Row, Card, Container } from "react-bootstrap";
 
 import ReceiverDetail from "./ReceiverDetail/ReceiverDetail";
 import AddAmountForm from "./AddAmountForm/AddAmountForm";
@@ -11,7 +11,7 @@ import AlertBox from "../../Others/AlertBox/AlertBox";
 const DebtAddForm = (props) => {
   const { reducerAuthorization, reducerUserInformation } = props;
   const { accessToken } = reducerAuthorization.authentication;
-  const { balance } = reducerUserInformation.data;
+  const { balance, accountNumber } = reducerUserInformation.data;
   const receiversData = reducerUserInformation.receivers;
 
   const [formVariables, setFormVariables] = useState({
@@ -19,7 +19,7 @@ const DebtAddForm = (props) => {
     bankId: 0,
     name: "",
     savedName: "",
-    amount: 1000,
+    amount: 0,
     debtContent: "",
     error: null,
     message: "",
@@ -67,6 +67,18 @@ const DebtAddForm = (props) => {
             accessToken={accessToken}
             setStep={setStep}
             balance={balance}
+            accountNumber={accountNumber}
+            setFormError={setFormError}
+          />
+        );
+      default:
+        return (
+          <ReceiverDetail
+            receiversData={receiversData}
+            formVariables={formVariables}
+            setFormVariables={setFormVariables}
+            accessToken={accessToken}
+            setStep={setStep}
             setFormError={setFormError}
           />
         );
@@ -83,9 +95,6 @@ const DebtAddForm = (props) => {
               {renderAlert()}
               {renderStepForm()}
             </Card.Body>
-            {/* <Card.Footer className="text-muted text-center">
-              HCMUS - PTUDWNC - 21KTPM1
-            </Card.Footer> */}
           </Card>
         </Col>
       </Row>
