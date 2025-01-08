@@ -6,11 +6,7 @@ import AlertBox from "../../../Others/AlertBox/AlertBox";
 
 import moneyFormatter from "../../../HelperFunctions/moneyFormatter";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faTrash,
-  faBackward,
-  faMoneyBill,
-} from "@fortawesome/free-solid-svg-icons";
+import { faBackward } from "@fortawesome/free-solid-svg-icons";
 
 // Hiện render form khi bấm vào nút thanh toán
 const OtpDebtForm = ({
@@ -19,6 +15,8 @@ const OtpDebtForm = ({
   handleChange,
   setStep,
   setFormError,
+  currentUser,
+  sendingForm,
 }) => {
   const [validated, setValidated] = useState(false);
 
@@ -29,32 +27,31 @@ const OtpDebtForm = ({
     if (form.checkValidity() === false) {
       event.stopPropagation();
     } else {
-      console.log(formVariables);
+      setFormVariables({ ...formVariables, isLoading: true });
       await axios
-        .post(
-          "/api/transaction/verify-code",
-          {
-            code: formVariables.otpCode,
-          },
-          {
-            headers: {
-              transactionId: formVariables.transactionId,
-              debtId: formVariables.debtId,
-            },
-          }
-        )
-        .then((result) => {
+        .post("/otp/verify", {
+          otp: formVariables.otpCode,
+          email: currentUser.email,
+        })
+        .then(async (result) => {
           setFormVariables({ ...formVariables, isLoading: false });
           if (result.status === 200) {
+            console.log(formVariables);
+            await axios.post(`/api/protected/transactions`, {
+              senderAccountNumber: sendingForm.senderAccountNumber,
+              receiverAccountNumber: sendingForm.receiverAccountNumber,
+              amount: sendingForm.amount,
+              description: formVariables.content,
+              type: "dept",
+            });
             setFormError(
               null,
-              `Thanh toán nợ thành công! Tuyệt vời! 
-							Bạn sẽ quay lại danh sách nợ trong 5 giây nữa...`
+              `Debt payment successful! Awesome!
+              You will return to the debt list in 3 seconds...`
             );
             setTimeout(() => {
-              setStep("debt-list");
-              setFormError(null, "");
-            }, 5000);
+              window.location.reload();
+            }, 3000);
           }
         })
         .catch((err) => {

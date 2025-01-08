@@ -13,7 +13,6 @@ const ModalForm = ({
 }) => {
   const [validated, setValidated] = useState(false);
 
-  console.log("currentUser:", customerData);
   // Lấy tên người dùng khi bấm vào receiver có sẵn.
   useEffect(() => {
     if (!isAdding)
@@ -60,10 +59,7 @@ const ModalForm = ({
   // Submit
   const handleSubmit = async (event) => {
     const form = event.currentTarget;
-    if (
-      form.checkValidity() === false ||
-      workingReceiver.name === "KHONG TIM THAY"
-    ) {
+    if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
     } else {
@@ -80,15 +76,21 @@ const ModalForm = ({
           type: +workingReceiver.bankId === 0 ? "internal" : "external",
         });
       } else {
-        // Nếu như update (chỉ đổi savedName)
-        await axios.patch(`/api/protected/receiver`, {
-          nickName:
-            workingReceiver.savedName !== ""
-              ? workingReceiver.savedName
-              : workingReceiver.username,
+        event.preventDefault();
+        console.log("workingReceiver", workingReceiver);
+        console.log({
+          nickName: workingReceiver.nickName,
           bankId: +workingReceiver.bankId,
           senderAccountNumber: customerData.accountNumber,
-          receiverAccountNumber: workingReceiver.accountNumber,
+          receiverAccountNumber: workingReceiver.receiverAccountId,
+          type: +workingReceiver.bankId === 0 ? "internal" : "external",
+        });
+        // Nếu như update (chỉ đổi savedName)
+        await axios.patch(`/api/protected/receiver`, {
+          nickName: workingReceiver.nickName,
+          bankId: +workingReceiver.bankId,
+          senderAccountNumber: customerData.accountNumber,
+          receiverAccountNumber: workingReceiver.receiverAccountId,
           type: +workingReceiver.bankId === 0 ? "internal" : "external",
         });
       }
@@ -102,7 +104,6 @@ const ModalForm = ({
       return (
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
           <Form.Group>
-            {/* <Form.Label className="font-weight-bold">ID and UserName</Form.Label> */}
             <Row>
               <Col>
                 <Form.Text className="text-muted font-weight-bold">
@@ -135,17 +136,6 @@ const ModalForm = ({
                 </Form.Control>
               </Col>
             </Row>
-            {/* <Form.Text className="text-muted font-weight-bold">
-              Full name
-            </Form.Text>
-            <Form.Control
-              required
-              type="text"
-              name="name"
-              value={workingReceiver.name}
-              onChange={(e) => handleChange(e)}
-              disabled
-            /> */}
           </Form.Group>
           <Form.Group>
             <Form.Text className="text-muted font-weight-bold">
@@ -153,14 +143,9 @@ const ModalForm = ({
             </Form.Text>
             <Form.Control
               type="text"
-              name="savedName"
+              name="nickName"
               value={workingReceiver.nickName}
-              onChange={(e) =>
-                setWorkingReceiver({
-                  ...workingReceiver,
-                  nickName: e.target.value,
-                })
-              }
+              onChange={(e) => handleChange(e)}
             />
             <Form.Control.Feedback type="invalid">
               Please fill the field.

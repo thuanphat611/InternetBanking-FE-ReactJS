@@ -110,7 +110,7 @@ const DebtsFilter = (props) => {
     formVariables["description"] = item.description;
 
     setSendingForm({ ...sendingForm });
-    console.log(sendingForm);
+    console.log("sendingForm", sendingForm);
     setFormVariables({ ...formVariables });
     console.log(formVariables);
     if (type === "delete") setStep(1);
@@ -148,7 +148,7 @@ const DebtsFilter = (props) => {
               moneyType = "success";
               moneyDetail = moneyFormatter.format(item.amount);
               transactionType = "success";
-              badgeName = "Payment reminder for";
+              badgeName = "Your payment reminder";
             }
             const badgeType = item.isDebt ? "secondary" : "primary";
             const dateToShow = new Date(item.createdAt).toDateString();
@@ -223,6 +223,8 @@ const DebtsFilter = (props) => {
           setStep={setStep}
           handleChange={handleChange}
           setFormError={setFormError}
+          currentUser={currentUser}
+          sendingForm={sendingForm}
         />
       )}
       {step === "get-otp-debt" && (
@@ -232,6 +234,8 @@ const DebtsFilter = (props) => {
           setStep={setStep}
           handleChange={handleChange}
           setFormError={setFormError}
+          currentUser={currentUser}
+          sendingForm={sendingForm}
         />
       )}
     </div>

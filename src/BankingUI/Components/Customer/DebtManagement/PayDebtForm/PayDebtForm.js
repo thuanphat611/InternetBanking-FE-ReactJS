@@ -6,11 +6,7 @@ import AlertBox from "../../../Others/AlertBox/AlertBox";
 
 import moneyFormatter from "../../../HelperFunctions/moneyFormatter";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faTrash,
-  faBackward,
-  faMoneyBill,
-} from "@fortawesome/free-solid-svg-icons";
+import { faBackward } from "@fortawesome/free-solid-svg-icons";
 
 // Hiện render form khi bấm vào nút thanh toán
 const PayDebtForm = ({
@@ -20,6 +16,8 @@ const PayDebtForm = ({
   setStep,
   setFormError,
   setSendingForm,
+  currentUser,
+  sendingForm,
 }) => {
   const [validated, setValidated] = useState(false);
 
@@ -30,23 +28,22 @@ const PayDebtForm = ({
     if (form.checkValidity() === false) {
       event.stopPropagation();
     } else {
+      setFormVariables({ ...formVariables, isLoading: true });
       await axios
-        .post(`/api/pay/${formVariables.debtId}`, {
-          content: formVariables.feedbackContent,
+        .post(`/otp/generate-otp`, {
+          otp: "111",
+          email: currentUser.email,
         })
         .then((result) => {
-          if (result.status === 200) return result.data;
-        })
-        .then((result) => {
-          console.log(result.data.transactionId);
-          formVariables["transactionId"] = result.data.transactionId;
-          if (result.data) {
-            console.log(result.data.transactionId);
-            setFormVariables({ ...formVariables });
-          }
+          console.log(result);
+          // formVariables["transactionId"] = result.data.transactionId;
+          // if (result.data) {
+          //   console.log(result.data.transactionId);
+          //   setFormVariables({ ...formVariables });
+          // }
           setFormError(
             null,
-            "Hệ thống đã gửi OTP code cho bạn, hãy kiểm tra mail!"
+            "The system has sent an OTP code to you, please check your email!"
           );
         })
         .catch((error) => {

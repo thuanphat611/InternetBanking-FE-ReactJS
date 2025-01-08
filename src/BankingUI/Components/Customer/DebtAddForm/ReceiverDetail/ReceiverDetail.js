@@ -144,7 +144,7 @@ const ReceiverDetail = (props) => {
             <Table responsive="sm" striped bordered hover>
               <thead>
                 <tr>
-                  <th>#</th>
+                  <th>Account number</th>
                   <th>Name</th>
                   <th>Bank name</th>
                   <th></th>
