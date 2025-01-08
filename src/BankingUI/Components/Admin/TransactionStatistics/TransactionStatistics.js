@@ -62,92 +62,92 @@ const TransactionStatistics = (props) => {
 
 	const StatisticTable = () => {
 		return (
-			<>
-				<Space>
-					<RangePicker
-						onChange={(dates, dateStrings) => {
-							console.log("hello: ", dates, dateStrings);
-							range = { fromDate: dateStrings[0], toDate: dateStrings[1] };
-						}}
-					/>
-					<Button type="primary" onClick={() => onFilter(range)}>
-						Filter
-					</Button>
-				</Space>
-				<Table dataSource={filteredTransactionsData}>
-					<Column
-						title="Sent bank"
-						dataIndex="sentBankId"
-						key="sentBankId"
-						render={(sentBankId) => <>{getBankName(sentBankId)}</>}
-						filters={[
-							{ text: "SAPHASANBank", value: 0 },
-							{ text: "3TBank", value: 1 },
-							{ text: "BAOSON Bank", value: 2 },
-						]}
-						onFilter={(value, record) => record.sentBankId === value}
-					/>
-					<Column
-						title="Received bank"
-						dataIndex="receivedBankId"
-						key="receivedBankId"
-						render={(receivedBankId) => <>{getBankName(receivedBankId)}</>}
-						filters={[
-							{ text: "SAPHASANBank", value: 0 },
-							{ text: "3TBank", value: 1 },
-							{ text: "BAOSON Bank", value: 2 },
-						]}
-						onFilter={(value, record) => record.receivedBankId === value}
-					/>
-					<Column
-						title="Amount"
-						key="amount"
-						render={(row) => {
-							let moneyDetail, badgeColor;
-							if (row.receivedBankId === 0) {
-								moneyDetail = `+ ${formatter.format(row.amount)}`;
-								badgeColor = "#52c41a";
-							} else {
-								moneyDetail = `- ${formatter.format(row.amount)}`;
-								badgeColor = "red";
-							}
-							return (
-								<Badge
-									className="site-badge-count-109"
-									count={moneyDetail}
-									style={{ backgroundColor: badgeColor }}
-								/>
-							);
-						}}
-					/>
-					<Column
-						title="Date"
-						key="createdAt"
-						render={(row) => {
-							return <>{new Date(row.createdAt).toUTCString()}</>;
-						}}
-						sorter={(a, b) => new Date(a.createdAt) - new Date(b.createdAt)}
-					/>
-					<Column
-						title="Action"
-						key="action"
-						render={(item) => (
-							<Button
-								type="primary"
-								onClick={() => {
-									setWorkingTransaction(
-										Object.assign(workingTransaction, item)
-									);
-									setStep("transaction-detail");
-								}}
-							>
-								Detail
-							</Button>
-						)}
-					/>
-				</Table>
-			</>
-		);
+      <>
+        <Space>
+          <RangePicker
+            onChange={(dates, dateStrings) => {
+              console.log("hello: ", dates, dateStrings);
+              range = { fromDate: dateStrings[0], toDate: dateStrings[1] };
+            }}
+          />
+          <Button type="primary" onClick={() => onFilter(range)}>
+            Filter
+          </Button>
+        </Space>
+        <Table dataSource={filteredTransactionsData}>
+          <Column
+            title="Sent bank"
+            dataIndex="sentBankId"
+            key="sentBankId"
+            render={(sentBankId) => <>{getBankName(sentBankId)}</>}
+            filters={[
+              { text: "DOMLand Bank", value: 0 },
+              { text: "3TBank", value: 1 },
+              { text: "BAOSON Bank", value: 2 },
+            ]}
+            onFilter={(value, record) => record.sentBankId === value}
+          />
+          <Column
+            title="Received bank"
+            dataIndex="receivedBankId"
+            key="receivedBankId"
+            render={(receivedBankId) => <>{getBankName(receivedBankId)}</>}
+            filters={[
+              { text: "DOMLand Bank", value: 0 },
+              { text: "3TBank", value: 1 },
+              { text: "BAOSON Bank", value: 2 },
+            ]}
+            onFilter={(value, record) => record.receivedBankId === value}
+          />
+          <Column
+            title="Amount"
+            key="amount"
+            render={(row) => {
+              let moneyDetail, badgeColor;
+              if (row.receivedBankId === 0) {
+                moneyDetail = `+ ${formatter.format(row.amount)}`;
+                badgeColor = "#52c41a";
+              } else {
+                moneyDetail = `- ${formatter.format(row.amount)}`;
+                badgeColor = "red";
+              }
+              return (
+                <Badge
+                  className="site-badge-count-109"
+                  count={moneyDetail}
+                  style={{ backgroundColor: badgeColor }}
+                />
+              );
+            }}
+          />
+          <Column
+            title="Date"
+            key="createdAt"
+            render={(row) => {
+              return <>{new Date(row.createdAt).toUTCString()}</>;
+            }}
+            sorter={(a, b) => new Date(a.createdAt) - new Date(b.createdAt)}
+          />
+          <Column
+            title="Action"
+            key="action"
+            render={(item) => (
+              <Button
+                type="primary"
+                onClick={() => {
+                  setWorkingTransaction(
+                    Object.assign(workingTransaction, item)
+                  );
+                  setStep("transaction-detail");
+                }}
+              >
+                Detail
+              </Button>
+            )}
+          />
+        </Table>
+      </>
+    );
 	};
 
 	return (

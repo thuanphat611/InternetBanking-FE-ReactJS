@@ -117,7 +117,7 @@ const ReceiverDetail = (props) => {
                     }
                   >
                     <option value={-1}></option>
-                    <option value={0}>SAPHASAN Bank</option>
+                    <option value={0}>DOMLand Bank</option>
                     <option value={1}>Ngân hàng Ba Tê</option>
                     <option value={2}>BAOSON Bank</option>
                   </Form.Control>
@@ -164,7 +164,7 @@ const ReceiverDetail = (props) => {
                       <td>{receiver.savedName}</td>
                       <td>
                         {receiver.bankId === 0
-                          ? "SAPHASAN Bank"
+                          ? "DOMLand Bank"
                           : receiver.bankId === 1
                           ? "Ngân hàng Ba Tê"
                           : "BAOSON Bank"}
@@ -245,7 +245,7 @@ const ReceiverDetail = (props) => {
                     }
                   >
                     <option value={-1}></option>
-                    <option value={0}>SAPHASAN Bank</option>
+                    <option value={0}>DOMLand Bank</option>
                     <option value={1}>Ngân hàng Ba Tê</option>
                     <option value={2}>BAOSON Bank</option>
                   </Form.Control>

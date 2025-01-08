@@ -121,7 +121,7 @@ const ModalForm = ({
                   disabled
                 >
                   <option value={-1}></option>
-                  <option value={0}>SAPHASAN Bank</option>
+                  <option value={0}>DOMLand Bank</option>
                   <option value={1}>Ngân hàng Ba Tê</option>
                   <option value={2}>BAOSON Bank</option>
                 </Form.Control>
@@ -211,7 +211,7 @@ const ModalForm = ({
                   }
                 >
                   <option value={-1}></option>
-                  <option value={0}>SAPHASAN Bank</option>
+                  <option value={0}>DOMLand Bank</option>
                   <option value={1}>Ngân hàng Ba Tê</option>
                   <option value={2}>BAOSON Bank</option>
                 </Form.Control>

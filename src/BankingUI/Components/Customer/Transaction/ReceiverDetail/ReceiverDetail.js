@@ -26,7 +26,7 @@ const ReceiverDetail = (props) => {
     setFormVariables({ ...formVariables, name: "WAITING..." });
     if (bankId !== -1 && accountNumber !== "") {
       const name = await axios
-        .get(`/api/users/bank/${bankId}/users/${accountNumber}`)
+        .get(`/api/protected/customer/bank/${bankId}/users/${accountNumber}`)
         .then((result) => {
           if (result.data.name) return result.data.name;
           return "NOT FOUND";
@@ -114,7 +114,7 @@ const ReceiverDetail = (props) => {
                   }
                 >
                   <option value={-1}></option>
-                  <option value={0}>SAPHASAN Bank</option>
+                  <option value={0}>DOMLand Bank</option>
                   <option value={1}>Ngân hàng Ba Tê</option>
                   <option value={2}>BAOSON Bank</option>
                 </Form.Control>
@@ -160,7 +160,7 @@ const ReceiverDetail = (props) => {
                       <td>{receiver.savedName}</td>
                       <td>
                         {receiver.bankId === 0
-                          ? "SAPHASAN Bank"
+                          ? "DOMLand Bank"
                           : receiver.bankId === 1
                           ? "Ngân hàng Ba Tê"
                           : "BAOSON Bank"}
@@ -239,7 +239,7 @@ const ReceiverDetail = (props) => {
                     }
                   >
                     <option value={-1}></option>
-                    <option value={0}>SAPHASAN Bank</option>
+                    <option value={0}>DOMLand Bank</option>
                     <option value={1}>Ngân hàng Ba Tê</option>
                     <option value={2}>BAOSON Bank</option>
                   </Form.Control>

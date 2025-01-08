@@ -14,7 +14,7 @@ import AlertBox from "../../Others/AlertBox/AlertBox";
 const Transaction = (props) => {
   const { reducerAuthorization, reducerUserInformation } = props;
   const { accessToken } = reducerAuthorization.authentication;
-  const { balance } = reducerUserInformation.data;
+  const { balance, accountNumber, id, email } = reducerUserInformation.data;
   const receiversData = reducerUserInformation.receivers;
 
   const [formVariables, setFormVariables] = useState({
@@ -82,6 +82,9 @@ const Transaction = (props) => {
             accessToken={accessToken}
             setStep={setStep}
             balance={balance}
+            id={id}
+            email={email}
+            accountNumber={accountNumber}
             setFormError={setFormError}
           />
         );
@@ -93,6 +96,9 @@ const Transaction = (props) => {
             accessToken={accessToken}
             setStep={setStep}
             balance={balance}
+            accountNumber={accountNumber}
+            id={id}
+            email={email}
             setFormError={setFormError}
           />
         );
@@ -100,8 +106,11 @@ const Transaction = (props) => {
         return (
           <SuccessInformation
             formVariables={formVariables}
+            setFormVariables={setFormVariables}
             reducerUserInformation={reducerUserInformation}
             balance={balance}
+            accountNumber={accountNumber}
+            id={id}
             setFormError={setFormError}
             setStep={setStep}
           />
@@ -113,9 +122,23 @@ const Transaction = (props) => {
             setFormVariables={setFormVariables}
             reducerUserInformation={reducerUserInformation}
             balance={balance}
+            accountNumber={accountNumber}
+            id={id}
             setFormError={setFormError}
             accessToken={accessToken}
             setStep={setStep}
+          />
+        );
+      default:
+        return (
+          <ReceiverDetail
+            receiversData={receiversData}
+            formVariables={formVariables}
+            setFormVariables={setFormVariables}
+            accessToken={accessToken}
+            setStep={setStep}
+            setFormError={setFormError}
+            handleChange={handleChange}
           />
         );
     }

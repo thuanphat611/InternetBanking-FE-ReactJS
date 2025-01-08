@@ -28,7 +28,7 @@ const Header = (props) => {
       className="px-4 py-2"
     >
       <Navbar.Brand as={Link} to="/" className="text-light">
-        SAPHASAN Bank
+        DOMLand Bank
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse
