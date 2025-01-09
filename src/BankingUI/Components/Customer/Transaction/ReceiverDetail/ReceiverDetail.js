@@ -25,6 +25,26 @@ const ReceiverDetail = (props) => {
 
     setFormVariables({ ...formVariables, name: "WAITING..." });
     if (bankId !== -1 && accountNumber !== "") {
+      if (bankId == 1) {
+        const name = await axios
+          .post(`/api/external/customer/query`, {
+            srcBankCode: "BANK1",
+            desAccountNumber: accountNumber,
+          })
+          .then((result) => {
+            console.log(result)
+            if (result.data.data.desAccountName) return result.data.data.desAccountName;
+            return "NOT FOUND";
+          })
+          .catch((err) => "NOT FOUND");
+      
+        await setFormVariables({
+          ...formVariables,
+          accountNumber: accountNumber,
+          bankId: bankId,
+          name: name,
+        });
+      } else {
       const name = await axios
         .get(`/api/protected/customer/bank/${bankId}/users/${accountNumber}`)
         .then((result) => {
@@ -40,6 +60,7 @@ const ReceiverDetail = (props) => {
         name: name,
       });
     }
+  }
   };
 
   // Update giá trị điền vào Form
