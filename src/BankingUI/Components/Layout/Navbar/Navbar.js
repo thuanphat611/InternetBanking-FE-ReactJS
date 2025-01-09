@@ -95,7 +95,7 @@ const Header = (props) => {
           </Nav.Link>
           <Nav.Link>
             <Link to="/statistics" className="text-light mr-2">
-              Statistics
+              External transaction
             </Link>
           </Nav.Link>
           {/* <Nav.Link>

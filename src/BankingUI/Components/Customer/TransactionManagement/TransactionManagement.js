@@ -35,7 +35,7 @@ const TransactionManagement = (props) => {
   const getList = async (isGettingAList) => {
     await axios
       .get(
-        `http://localhost:8080/api/protected/transactions/transaction/account/${currentUser.accountId}`
+        `/api/protected/transactions/transaction/account/${currentUser.accountId}`
       )
       .then((result) => result.data.data)
       .then((result) => {
