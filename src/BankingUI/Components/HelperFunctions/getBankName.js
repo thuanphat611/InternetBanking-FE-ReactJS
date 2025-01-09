@@ -5,9 +5,9 @@ const getBankName = (bankId) => {
 		case 1:
 			return "Team3 Bank";
 		case 2:
-			return "BAOSON Bank";
+			return "Hoa Bank";
 		default:
-			return "DOMLand Bank";
+			return "Unknown Bank";
 	}
 };
 
